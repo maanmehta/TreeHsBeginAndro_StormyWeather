@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                tools:background="@drawable/bg_gradient_maroon">
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        tools:text="12 PM"
+        android:id="@+id/hourValueTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="15sp"
+        android:textColor="#ffffffff"
+        android:paddingLeft="5dp"
+        android:layout_centerVertical="true"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iconHourImageView"
+        android:src="@drawable/cloudy_night"
+        android:layout_toEndOf="@+id/hourValueTextView"
+        android:layout_toRightOf="@+id/hourValueTextView"
+        android:layout_centerVertical="true"/>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/circleImageView3"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/bg_temperature"/>
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/hourTempTextView"
+    android:layout_alignTop="@+id/circleImageView3"
+    android:layout_alignBottom="@+id/circleImageView3"
+    android:layout_alignLeft="@+id/circleImageView3"
+    android:layout_alignRight="@+id/circleImageView3"
+    android:gravity="center"
+    tools:text="26"
+    android:textSize="12sp"
+    android:paddingRight="5dp"
+    android:paddingLeft="10dp"
+    android:textColor="#e74c3c"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hourSummaryTextView"
+        android:gravity="center"
+        tools:text="Cloudy night"
+        android:textSize="15sp"
+        android:paddingLeft="10dp"
+        android:textColor="#ffffffff"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/circleImageView3"
+        android:layout_toRightOf="@+id/iconHourImageView"/>
+
+
+</RelativeLayout>

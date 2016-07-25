@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingTop="0dp"
+              android:paddingBottom="0dp"
+              android:paddingLeft="26dp"
+              android:paddingRight="26dp"
+              tools:background="@drawable/bg_gradient_maroon">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/circleImageView"
+            android:layout_toEndOf="@+id/iconDayImageView"
+            android:paddingLeft="10dp"
+            android:src="@drawable/bg_temperature"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/circleImageView"
+            android:layout_alignBottom="@+id/circleImageView"
+            android:layout_alignLeft="@+id/circleImageView"
+            android:layout_alignRight="@+id/circleImageView"
+            android:gravity="center"
+            android:text="New Text"
+            android:id="@+id/dayMaxTempTextView"
+            tools:text="76"
+            android:textSize="15sp"
+            android:paddingLeft="10dp"
+            android:textColor="#e74c3c"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/circleImageView2"
+            android:layout_toEndOf="@+id/circleImageView"
+            android:paddingLeft="10dp"
+            android:src="@drawable/bg_temperature"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/circleImageView2"
+            android:layout_alignBottom="@+id/circleImageView2"
+            android:layout_alignLeft="@+id/circleImageView2"
+            android:layout_alignRight="@+id/circleImageView2"
+            android:gravity="center|fill_vertical|center_horizontal"
+            android:text="New Text"
+            android:id="@+id/dayMinTempTextView"
+            tools:text="65"
+            android:textSize="12sp"
+            android:paddingLeft="10dp"
+            android:textColor="#e74c3c"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconDayImageView"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/dayNameTextView"
+            android:layout_toEndOf="@+id/dayNameTextView"
+            android:paddingLeft="10dp"
+            android:src="@drawable/clear_day"/>
+
+
+        <TextView
+            android:layout_width="90sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/dayNameTextView"
+            tools:text="Wed, 20 Jul"
+            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textColor="#ffffffff"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="invisible"
+        android:id="@+id/bottomRL"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="blah blah blah"
+            android:id="@+id/detailsTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="#aaffffff"
+            android:textSize="15sp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
