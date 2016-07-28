@@ -102,8 +102,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mVibrator.vibrate(15);
-                Intent intent = new Intent(MainActivity.this,HourlyForecastActivity.class);
-                intent.putExtra(HOURLY_FORECAST_KEY,mForecast.getHourlyForecast());
+                //Intent intent = new Intent(MainActivity.this,HourlyForecastActivity.class);
+                //intent.putExtra(HOURLY_FORECAST_KEY,mForecast.getHourlyForecast());
+
+
+                Intent intent = new Intent(MainActivity.this,MapsActivity.class);
+
                 startActivity(intent);
             }
         });
