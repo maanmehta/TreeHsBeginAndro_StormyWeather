@@ -105,6 +105,7 @@ public class MapsActivity extends FragmentActivity
     public void onConnected(@Nullable Bundle bundle) {
         Log.d(TAG, "*********** Location services connected.");
 
+        // TODO: Check Permissions code
         /**
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -217,6 +218,7 @@ public class MapsActivity extends FragmentActivity
     public void onStart() {
         super.onStart();
 
+        // TODO: Fix App Index code - find right value for host and path
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         mGoogleApiClient.connect();

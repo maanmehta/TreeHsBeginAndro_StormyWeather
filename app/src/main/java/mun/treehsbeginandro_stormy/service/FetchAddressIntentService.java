@@ -41,19 +41,6 @@ public class FetchAddressIntentService extends IntentService {
         Log.d(TAG, "********** starting FetchAddressIntentService() constructor method");
     }
 
-
-    /**
-    public FetchAddressIntentService(String name) {
-        // Use the TAG to name the worker thread. Ths constructor is used to create an instance
-        // of this IntentService and we need to send a label to name the worker thread
-        // to execute this service asynchronously
-        //Log.d(TAG, "********** starting FetchAddressIntentService constructor method");
-
-        super(TAG);
-        Log.d(TAG, "********** starting FetchAddressIntentService(name) constructor method");
-    }
-     */
-
     /**
      * Tries to get the location address using a Geocoder. If successful, sends an address to a
      * result receiver. If unsuccessful, sends an error message instead.
