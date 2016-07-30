@@ -25,7 +25,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -33,6 +32,10 @@
         </activity>
         <activity android:name=".ui.HourlyForecastActivity">
         </activity>
+        <activity android:name=".ui.MapsActivity"
+                  android:label="@string/title_activity_maps">
+        </activity>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -45,13 +48,24 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
 
-        <activity
+        <!--activity
             android:name=".ui.MapsActivity"
             android:label="@string/title_activity_maps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mun.treehsbeginandro_stormy.ui.MainActivity"/>
-        </activity>
+        </activity-->
+
+        <service
+            android:name=".service.FetchAddressIntentService"
+            android:exported="false"/>
+
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
     </application>
 
 </manifest>

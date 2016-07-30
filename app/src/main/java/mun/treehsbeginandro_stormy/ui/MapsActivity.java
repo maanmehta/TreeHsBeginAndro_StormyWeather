@@ -1,16 +1,25 @@
 package mun.treehsbeginandro_stormy.ui;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.location.Location;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,20 +29,28 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import mun.treehsbeginandro_stormy.R;
+import mun.treehsbeginandro_stormy.service.Constants;
+import mun.treehsbeginandro_stormy.service.FetchAddressIntentService;
 
 public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener{
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private Location mCurrentLocation;
+
     public static final String TAG = MapsActivity.class.getSimpleName();
 
     // This defines a request code to send to Google Play services, which is returned in
-    // Activity.onActivityResult(). This is handled automatically and we don't use but just
-    // define it as good practice
+    // Activity.onActivityResult(). We will send it to google as part of resolution code block when
+    // connection fails in onConnectionFailed method.
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+
+    private AddressResultReceiver mResultReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +62,23 @@ public class MapsActivity extends FragmentActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        mResultReceiver = new AddressResultReceiver(new Handler());
+
         // create and initialize GoogleApiClient instance
+        // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
+                //.addApi(AppIndex.API)
                 .build();
+
+        // Create the LocationRequest object - this will have minimal impacts on power
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(60 * 60 * 1000)        // 60 minutes, in milliseconds
+                .setFastestInterval(1 * 60 * 1000); // 1 minute, in milliseconds
     }
 
 
@@ -75,7 +103,7 @@ public class MapsActivity extends FragmentActivity
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.i(TAG, "*********** Location services connected.");
+        Log.d(TAG, "*********** Location services connected.");
 
         /**
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -90,19 +118,47 @@ public class MapsActivity extends FragmentActivity
         }
          */
 
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-        if (location == null) {
-            // Blank for a moment...
+        if (mCurrentLocation == null) {
+            // Location can be null when the last location is unknown, therefore getLastLocation
+            // returns null location, so we need to use requestLocationUpdates api and provide a
+            // LocationRequest object
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
         else {
-            handleNewLocation(location);
-        };
-
+            handleNewLocation(mCurrentLocation);
+        }
     }
 
     private void handleNewLocation(Location location) {
-        Log.d(TAG, "********** Location Object to Stringis: " + location.toString());
+        Log.d(TAG, "********** Location Object toString is: " + location.toString());
+
+        double currentLatitude = location.getLatitude();
+        double currentLongitude = location.getLongitude();
+        LatLng currentLatLng = new LatLng(currentLatitude, currentLongitude);
+
+        MarkerOptions options = new MarkerOptions()
+                .position(currentLatLng)
+                .title("I am here NOW!");
+        mMap.addMarker(options);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng,16));
+
+
+        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+        //mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+        //mMap.animateCamera(CameraUpdateFactory.zoomTo(17), 6000, null);
+
+        startGeoCodingIntentService(location);
+    }
+
+    private void startGeoCodingIntentService(Location location) {
+        Log.d(TAG, "********** Starting GeoCoding Intent Service method");
+        Intent intent = new Intent(this, FetchAddressIntentService.class);
+        intent.putExtra(Constants.RECEIVER,mResultReceiver);
+        intent.putExtra(Constants.LOCATION_DATA_EXTRA,mCurrentLocation);
+        startService(intent);
+
 
     }
 
@@ -115,6 +171,16 @@ public class MapsActivity extends FragmentActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+        }
     }
 
     @Override
@@ -129,9 +195,88 @@ public class MapsActivity extends FragmentActivity
     protected void onPause() {
         super.onPause();
         if (mGoogleApiClient.isConnected()) {
+
+            // remove location Updates when the application pauses so it does not continue to request
+            //location updates and drain power and battery. When the app resumes, it will need
+            // again start requesting location updates. In our code, onResume, calls connect which
+            // calls onConnected with is where we have added code to requestLocationUpdates again
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+
+            // onPause, disconnect GoogleAPIClient, on Resume, we will need to connect again
             mGoogleApiClient.disconnect();
         }
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        mCurrentLocation = location;
+        handleNewLocation(location);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        mGoogleApiClient.connect();
+        /**Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Maps Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://mun.treehsbeginandro_stormy.ui/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);*/
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        /**Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Maps Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://mun.treehsbeginandro_stormy.ui/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);*/
+        mGoogleApiClient.disconnect();
+    }
+
+    @SuppressLint("ParcelCreator")
+    private class AddressResultReceiver extends ResultReceiver {
+
+        /**
+         * Create a new ResultReceive to receive results.  Your
+         * {@link #onReceiveResult} method will be called from the thread running
+         * <var>handler</var> if given, or from an arbitrary thread if null.
+         *
+         * @param handler
+         */
+        public AddressResultReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+
+            Log.d(TAG, "********** Starting onReceiveResult method");
+
+            super.onReceiveResult(resultCode, resultData);
+
+            String cityName = resultData.getString(Constants.RCVR_RESULT_CITY_KEY);
+            String province = resultData.getString(Constants.RCVR_RESULT_PROV_KEY);
+            Toast.makeText(MapsActivity.this, "City is: "+cityName + " and Province is: " + province, Toast.LENGTH_LONG).show();
+        }
+    }
 }

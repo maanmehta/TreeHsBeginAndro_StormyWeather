@@ -51,13 +51,13 @@
                 android:textSize="18sp"/>
 
             <TextView
-                android:id="@+id/locationValueTextView"
+                android:id="@+id/cityValueTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/timeValueTextView"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="60dp"
-                android:text="Toronto, ON"
+                android:text="...loading"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"/>
 
@@ -65,9 +65,9 @@
                 android:id="@+id/condIconImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/locationValueTextView"
+                android:layout_alignBottom="@+id/cityValueTextView"
                 android:layout_marginRight="20dp"
-                android:layout_toStartOf="@+id/locationValueTextView"
+                android:layout_toStartOf="@+id/cityValueTextView"
                 android:src="@drawable/cloudy_night"/>
 
             <LinearLayout
