@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
+import android.location.*;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -139,6 +139,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        mIconImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mVibrator.vibrate(15);
+                //Intent intent = new Intent(MainActivity.this,HourlyForecastActivity.class);
+                //intent.putExtra(HOURLY_FORECAST_KEY,mForecast.getHourlyForecast());
+
+
+                Intent intent = new Intent(MainActivity.this,MapsActivity.class);
+
+                startActivity(intent);
+            }
+        });
+
         mSevenDayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,10 +241,16 @@ public class MainActivity extends AppCompatActivity
     private void getForecast() {
         String apiKey = "006f325d675ba6c9883737d7add4eded";
 
-        //double latitude= 43.6869674;  //Toronto GPS coordinates
-        //double longitude = -79.2663151;
+        // Hardcoded gps coordinates for 12 Kildonan
+        //double latitude= 43.6869674;  //12 Kildonan GPS coordinates
+        //double longitude = -79.2663151; // 12 Kildonan
 
-        // get lat and long from location object
+        //Hardcoded gps coordinates for Sandbanks Outlet beach area to test missing major city Name
+        //double latitude= 43.8979913;  //Sandbanks GPS coordinates
+        //double longitude = -77.2254795; // Sandbanks
+
+
+        // get lat and long from the location object obtained via Google Location Services
         double latitude = mCurrentLocation.getLatitude();
         double longitude = mCurrentLocation.getLongitude();
         Log.d(TAG,"******* Lat: " + latitude + " Long: " + longitude);
@@ -611,6 +631,8 @@ public class MainActivity extends AppCompatActivity
             super(handler);
         }
 
+
+        // callback method called then the result is received from the FetchAddressIntentService
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
 
@@ -618,10 +640,27 @@ public class MainActivity extends AppCompatActivity
 
             super.onReceiveResult(resultCode, resultData);
 
-            mCity = resultData.getString(Constants.RCVR_RESULT_CITY_KEY);
-            String province = resultData.getString(Constants.RCVR_RESULT_PROV_KEY);
+            if (resultCode == Constants.SUCCESS_RESULT) {
 
-            Log.d(TAG, "**********City is: "+mCity + " and Province is: " + province);
+                // if success code was sent, then get the Address object sent in the bundle
+                android.location.Address addressObj = resultData.getParcelable(Constants.RCVR_RESULT_ADDRESS_OBJ);
+                String province = addressObj.getAdminArea();
+
+                // get City from the address object. First see if the City is sent as part of the
+                // SubLocality field of Address object, if not, then check in Locality field, then
+                // use SubAdmin field, if all of the above were null, then use the SubThoroughFare field
+                // otherwise, just hardcode text "Current Location"
+                if (addressObj.getSubLocality()!=null) mCity = addressObj.getSubLocality();
+                else if(addressObj.getLocality()!=null) mCity = addressObj.getLocality();
+                else if (addressObj.getSubAdminArea()!=null) mCity = addressObj.getSubAdminArea();
+                else if (addressObj.getSubThoroughfare()!=null) mCity = addressObj.getSubThoroughfare();
+                else mCity = "Current Location";
+
+                Log.d(TAG, "********** SUCCESS - Address received from FetchAddressIntentService.\nCity is: "+mCity + " and Province is: " + province + "\nAddress toString is: " + addressObj.toString());
+            } else {
+                //error scenario, so display error message sent by the FetchAddressIntentService
+                Toast.makeText(MainActivity.this, "Error: " + resultData.getString(Constants.RCVR_RESULT_MSG_KEY), Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

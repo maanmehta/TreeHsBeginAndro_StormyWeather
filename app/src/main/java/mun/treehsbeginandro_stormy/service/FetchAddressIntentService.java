@@ -74,7 +74,7 @@ public class FetchAddressIntentService extends IntentService {
         if (location==null) {
             errorMessage = getString(R.string.no_location_data_provided);
             Log.wtf(TAG,errorMessage);
-            deliverResultToReceiver(Constants.FAILURE_RESULT,errorMessage,null,null);
+            deliverResultToReceiver(Constants.FAILURE_RESULT,errorMessage,null);
             return;
         }
 
@@ -92,6 +92,18 @@ public class FetchAddressIntentService extends IntentService {
 
         List<Address> addressList=null;
 
+        // for testing only - Hardcoding location lat and longitude to Sandbanks to test missing city Names in getSubLocality
+
+        // Hardcoded gps coordinates for 12 Kildonan
+        //double latitude= 43.6869674;  //12 Kildonan GPS coordinates
+        //double longitude = -79.2663151; // 12 Kildonan
+
+        //Setting hardcoded gps coordinates for Sandbanks Outlet beach area to test missing major city Name
+        //double latitude= 43.8979913;  //Sandbanks GPS coordinates
+        //double longitude = -77.2254795; // Sandbanks
+        //location.setLatitude(latitude);
+        //location.setLongitude(longitude);
+
         try {
             addressList = geocoder.getFromLocation(
                     location.getLatitude(),
@@ -101,41 +113,38 @@ public class FetchAddressIntentService extends IntentService {
         } catch (IOException e) {
             errorMessage="IOException during reverse Geocoding";
             Log.e(TAG,errorMessage);
-            deliverResultToReceiver(Constants.FAILURE_RESULT,errorMessage,null,null);
+            deliverResultToReceiver(Constants.FAILURE_RESULT,errorMessage,null);
             return;
         }
 
         if (addressList==null || addressList.size()==0){
             errorMessage="No addresses returned by Geocoder service";
             Log.e(TAG,errorMessage);
-            deliverResultToReceiver(Constants.FAILURE_RESULT,errorMessage,null,null);
+            deliverResultToReceiver(Constants.FAILURE_RESULT,errorMessage,null);
             return;
         } else {
-            Address address = addressList.get(0);
-            Log.d(TAG,"******* SUCCESS reverse Geocoding - Address obtained" + address.getAddressLine(0)+ "" + address.getSubLocality() + "" + address.getAdminArea() + "\nFull address is: " + address.toString());
-            deliverResultToReceiver(Constants.SUCCESS_RESULT,"Success",address.getSubLocality(),address.getAdminArea());
+            Address addressObj = addressList.get(0);
+            Log.d(TAG,"******* SUCCESS reverse Geocoding - Address obtained" + addressObj.getAddressLine(0)+ "\nAddress toString is: " + addressObj.toString());
 
+            deliverResultToReceiver(Constants.SUCCESS_RESULT,"Success",addressObj);
         }
 
     }
 
     /**
      * Sends a resultCode and bundle to the receiver.
+     * Adding String message and Address object tot he bundle before sending
      */
-    private void deliverResultToReceiver(int resultCode, String message, String cityName, String provinceName) {
+    private void deliverResultToReceiver(int resultCode, String message, Address address) {
 
         Log.d(TAG, "********** starting deliverResultToReceiver method");
-
-
-        if (cityName==null) cityName="";
-        if (provinceName==null) provinceName="";
 
         // create a bundle to send back as part of the send method back to Results Receiver or executor
         // of this service
         Bundle bundle = new Bundle();
         bundle.putString(Constants.RCVR_RESULT_MSG_KEY, message);
-        bundle.putString(Constants.RCVR_RESULT_CITY_KEY, cityName);
-        bundle.putString(Constants.RCVR_RESULT_PROV_KEY, provinceName);
+        //bundle.putString(Constants.RCVR_RESULT_CITY_KEY, cityName);
+        bundle.putParcelable(Constants.RCVR_RESULT_ADDRESS_OBJ,address);
 
         //send back the resultCode and the bundle data to the Results Receiver
         mReceiver.send(resultCode, bundle);

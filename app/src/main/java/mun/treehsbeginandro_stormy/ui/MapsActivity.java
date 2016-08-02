@@ -3,6 +3,7 @@ package mun.treehsbeginandro_stormy.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -269,6 +270,7 @@ public class MapsActivity extends FragmentActivity
             super(handler);
         }
 
+        // callback method called then the result is received from the FetchAddressIntentService
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
 
@@ -276,9 +278,27 @@ public class MapsActivity extends FragmentActivity
 
             super.onReceiveResult(resultCode, resultData);
 
-            String cityName = resultData.getString(Constants.RCVR_RESULT_CITY_KEY);
-            String province = resultData.getString(Constants.RCVR_RESULT_PROV_KEY);
-            Toast.makeText(MapsActivity.this, "City is: "+cityName + " and Province is: " + province, Toast.LENGTH_LONG).show();
+            if (resultCode == Constants.SUCCESS_RESULT) {
+
+                // if success code was sent, then get the Address object sent in the bundle
+                Address addressObj = resultData.getParcelable(Constants.RCVR_RESULT_ADDRESS_OBJ);
+                String province = addressObj.getAdminArea();
+
+                String city = null;
+                if (addressObj.getSubLocality()!=null) city = addressObj.getSubLocality();
+                else if(addressObj.getLocality()!=null) city = addressObj.getLocality();
+                else if (addressObj.getSubAdminArea()!=null) city = addressObj.getSubAdminArea();
+                else if (addressObj.getSubThoroughfare()!=null) city = addressObj.getSubThoroughfare();
+                else city = "Current Location";
+
+                Toast.makeText(MapsActivity.this, "Nearest address: " + addressObj.getAddressLine(0) + "\n" + addressObj.getAddressLine(1)  + "\n" + addressObj.getAddressLine(2), Toast.LENGTH_LONG).show();
+
+            } else {
+                //error scenario, so display error message sent by the FetchAddressIntentService
+                Toast.makeText(MapsActivity.this, "Error: " + resultData.getString(Constants.RCVR_RESULT_MSG_KEY), Toast.LENGTH_LONG).show();
+            }
+
+
         }
     }
 }

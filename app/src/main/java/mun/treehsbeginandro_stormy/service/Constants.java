@@ -10,7 +10,6 @@ public final class Constants {
     public static final String APP_NAME = "mun.treehsbeginandro_stormy";
     public static final String RECEIVER = APP_NAME + ".RECEIVER";
     public static final String RCVR_RESULT_MSG_KEY = APP_NAME + ".RCVR_RESULT_MSG_KEY";
-    public static final String RCVR_RESULT_CITY_KEY = APP_NAME + ".RCVR_RESULT_CITY_KEY";
-    public static final String RCVR_RESULT_PROV_KEY = APP_NAME + ".RCVR_RESULT_PROV_KEY";
     public static final String LOCATION_DATA_EXTRA = APP_NAME + ".LOCATION_DATA_EXTRA";
+    public static final  String RCVR_RESULT_ADDRESS_OBJ = APP_NAME + "RCVR_RESULT_ADDRESS_OBJ";
 }
