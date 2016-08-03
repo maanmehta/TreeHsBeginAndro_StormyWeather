@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -43,6 +44,7 @@ public class MapsActivity extends FragmentActivity
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
+    private TextView mAddressValueTextView;
 
     public static final String TAG = MapsActivity.class.getSimpleName();
 
@@ -57,6 +59,8 @@ public class MapsActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        mAddressValueTextView = (TextView) findViewById(R.id.addressValueTextView);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -81,7 +85,6 @@ public class MapsActivity extends FragmentActivity
                 .setInterval(60 * 60 * 1000)        // 60 minutes, in milliseconds
                 .setFastestInterval(1 * 60 * 1000); // 1 minute, in milliseconds
     }
-
 
     /**
      * Manipulates the map once available.
@@ -160,8 +163,6 @@ public class MapsActivity extends FragmentActivity
         intent.putExtra(Constants.RECEIVER,mResultReceiver);
         intent.putExtra(Constants.LOCATION_DATA_EXTRA,mCurrentLocation);
         startService(intent);
-
-
     }
 
     @Override
@@ -291,14 +292,12 @@ public class MapsActivity extends FragmentActivity
                 else if (addressObj.getSubThoroughfare()!=null) city = addressObj.getSubThoroughfare();
                 else city = "Current Location";
 
-                Toast.makeText(MapsActivity.this, "Nearest address: " + addressObj.getAddressLine(0) + "\n" + addressObj.getAddressLine(1)  + "\n" + addressObj.getAddressLine(2), Toast.LENGTH_LONG).show();
-
+                mAddressValueTextView.setText("Nearest Address: \n\n" + addressObj.getAddressLine(0) + "\n" + addressObj.getAddressLine(1));
+                //Toast.makeText(MapsActivity.this, "Nearest address: " + addressObj.getAddressLine(0) + "\n" + addressObj.getAddressLine(1)  + "\n" + addressObj.getAddressLine(2), Toast.LENGTH_LONG).show();
             } else {
                 //error scenario, so display error message sent by the FetchAddressIntentService
                 Toast.makeText(MapsActivity.this, "Error: " + resultData.getString(Constants.RCVR_RESULT_MSG_KEY), Toast.LENGTH_LONG).show();
             }
-
-
         }
     }
 }

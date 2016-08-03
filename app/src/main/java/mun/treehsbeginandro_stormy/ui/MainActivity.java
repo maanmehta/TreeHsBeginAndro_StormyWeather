@@ -109,9 +109,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        ButterKnife.bind(this);
+        //ButterKnife.bind(this);
 
         mTimeField = (TextView) findViewById(R.id.timeValueTextView);
         mCityValueTextView = (TextView) findViewById(R.id.cityValueTextView);
@@ -128,13 +126,9 @@ public class MainActivity extends AppCompatActivity
         mCityValueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // vibrate for 15ms and then start the MapAcitivity to show current location in a Map
                 mVibrator.vibrate(15);
-                //Intent intent = new Intent(MainActivity.this,HourlyForecastActivity.class);
-                //intent.putExtra(HOURLY_FORECAST_KEY,mForecast.getHourlyForecast());
-
-
                 Intent intent = new Intent(MainActivity.this,MapsActivity.class);
-
                 startActivity(intent);
             }
         });
@@ -142,13 +136,9 @@ public class MainActivity extends AppCompatActivity
         mIconImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // vibrate for 15ms and then start the MapAcitivity to show current location in a Map
                 mVibrator.vibrate(15);
-                //Intent intent = new Intent(MainActivity.this,HourlyForecastActivity.class);
-                //intent.putExtra(HOURLY_FORECAST_KEY,mForecast.getHourlyForecast());
-
-
                 Intent intent = new Intent(MainActivity.this,MapsActivity.class);
-
                 startActivity(intent);
             }
         });
@@ -169,11 +159,16 @@ public class MainActivity extends AppCompatActivity
                 mVibrator.vibrate(15);
                 Intent intent = new Intent(MainActivity.this,HourlyForecastActivity.class);
                 intent.putExtra(HOURLY_FORECAST_KEY,mForecast.getHourlyForecast());
-
-
-                //Intent intent = new Intent(MainActivity.this,MapsActivity.class);
-
                 startActivity(intent);
+            }
+        });
+
+        mTemperatureField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // vibrate for 15ms and then toggle the temperature from Celius to Fahren
+                mVibrator.vibrate(15);
+                toggleTemperature();
             }
         });
 
@@ -188,20 +183,10 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.INVISIBLE);
 
          */
-
-        mTemperatureField.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mVibrator.vibrate(15);
-                toggleTemperature();
-            }
-        });
 
         mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeToRefresh);
 
@@ -212,7 +197,6 @@ public class MainActivity extends AppCompatActivity
             public void onRefresh() {
                 Log.v(TAG,"************** SWIPE REFRESH EVENT TRIGGERED!!!!!");
                 getForecast();
-
             }
         });
 
@@ -479,7 +463,6 @@ public class MainActivity extends AppCompatActivity
         mCityValueTextView.setText(mCity);
         Drawable drawable = getResources().getDrawable(mForecast.getCurrent().getIconId());
         mIconImage.setImageDrawable(drawable);
-
     }
 
     @Override
@@ -502,6 +485,7 @@ public class MainActivity extends AppCompatActivity
 
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
+        // if location is not null, start the Reverse GeoCoding Intent service asynchronously
         if (mCurrentLocation == null) {
             // Location can be null when the last location is unknown, therefore getLastLocation
             // returns null location, so we need to use requestLocationUpdates api and provide a
@@ -512,6 +496,7 @@ public class MainActivity extends AppCompatActivity
             startGeoCodingIntentService(mCurrentLocation);
         }
 
+        // get Forecast JSON from weather webservice
         getForecast();
     }
 
@@ -522,14 +507,11 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(Constants.RECEIVER,mResultReceiver);
         intent.putExtra(Constants.LOCATION_DATA_EXTRA,mCurrentLocation);
         startService(intent);
-
-
     }
 
     @Override
     public void onConnectionSuspended(int i) {
         Log.i(TAG, "****** Location services suspended. Please reconnect.");
-
     }
 
     @Override

@@ -15,6 +15,27 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
+        <TextView
+            android:layout_width="90sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/dayNameTextView"
+            tools:text="Wed, 20 Jul"
+            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textColor="#ffffffff"
+            android:textSize="15sp"/>s
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconDayImageView"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/dayNameTextView"
+            android:layout_toEndOf="@+id/dayNameTextView"
+            android:paddingLeft="10dp"
+            android:src="@drawable/clear_day"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +52,7 @@
             android:layout_alignLeft="@+id/circleImageView"
             android:layout_alignRight="@+id/circleImageView"
             android:gravity="center"
-            android:text="New Text"
+            android:text=".."
             android:id="@+id/dayMaxTempTextView"
             tools:text="76"
             android:textSize="15sp"
@@ -61,27 +82,6 @@
             android:paddingLeft="10dp"
             android:textColor="#e74c3c"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/iconDayImageView"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/dayNameTextView"
-            android:layout_toEndOf="@+id/dayNameTextView"
-            android:paddingLeft="10dp"
-            android:src="@drawable/clear_day"/>
-
-
-        <TextView
-            android:layout_width="90sp"
-            android:layout_height="wrap_content"
-            android:id="@+id/dayNameTextView"
-            tools:text="Wed, 20 Jul"
-            android:layout_centerVertical="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:textColor="#ffffffff"
-            android:textSize="15sp"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -89,8 +89,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:visibility="invisible"
-        android:id="@+id/bottomRL"
-        >
+        android:id="@+id/bottomRL">
 
         <TextView
             android:layout_width="wrap_content"
