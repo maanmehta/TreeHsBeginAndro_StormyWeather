@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.condIconImageView) ImageView mIconImage;
      */
 
+    private RelativeLayout mRL;
     private TextView mTimeField;
     private TextView mCityValueTextView;
     private TextView mTemperatureField;
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         //ButterKnife.bind(this);
 
+        mRL = (RelativeLayout) findViewById(R.id.secondRL);
         mTimeField = (TextView) findViewById(R.id.timeValueTextView);
         mCityValueTextView = (TextView) findViewById(R.id.cityValueTextView);
         mTemperatureField = (TextView) findViewById(R.id.temperatureValueTextView);
@@ -122,6 +125,20 @@ public class MainActivity extends AppCompatActivity
         mHourlyButton = (Button) findViewById(R.id.hourlyButton);
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
+
+        // Adding onClickListener to RelativeLayout inside the SwipeRefresh
+        // This was done only to fix the bug that animation for SwipeRefresh was not working properly
+        // So added the empty onClick on the encompassing RelativeLayout
+        // Got this idea as I noticed that animation for swipe refresh worked fine only
+        // on widgets that had set an onClickListener and not on other parts of the screen, so
+        // I added OnClickListener to the whole RelativeLayout and voila
+        mRL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Log
+                //Log.d(TAG,"********* OnClick fired on second RL");
+            }
+        });
 
         mCityValueTextView.setOnClickListener(new View.OnClickListener() {
             @Override
