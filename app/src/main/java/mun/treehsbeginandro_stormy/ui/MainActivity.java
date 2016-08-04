@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity
                 + apiKey + "/"
                 + latitude + ","
                 + longitude;
+
         if (isNetworkAvailable()) {
 
             // toggleRefreshIcon();
@@ -357,7 +358,7 @@ public class MainActivity extends AppCompatActivity
 
         String timezone = foreCastJsonObj.getString("timezone");
         int idx = timezone.lastIndexOf("/");
-        Log.i(TAG,"******* TIMEZONE from Json Response is: ***** " + timezone.substring(idx+1));
+        Log.d(TAG,"******* TIMEZONE from Json Response is: ***** " + timezone.substring(idx+1));
 
         JSONObject currently = foreCastJsonObj.getJSONObject("currently");
 
@@ -371,7 +372,7 @@ public class MainActivity extends AppCompatActivity
         current.setTimezone(timezone);
         current.setWindSpeed(currently.getDouble("windSpeed"));
 
-        Log.i(TAG,"******* At " + current.getFormattedTime() + ",temperature is: "
+        Log.d(TAG,"******* At " + current.getFormattedTime() + ",temperature is: "
                 + current.getFahrenheit() + " F "
                 + current.getCelcius() + " C "
                 + "and condition is: "
@@ -577,39 +578,13 @@ public class MainActivity extends AppCompatActivity
     public void onStart() {
         super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         mGoogleApiClient.connect();
-        /**Action viewAction = Action.newAction(
-         Action.TYPE_VIEW, // TODO: choose an action type.
-         "Maps Page", // TODO: Define a title for the content shown.
-         // TODO: If you have web page content that matches this app activity's content,
-         // make sure this auto-generated web page URL is correct.
-         // Otherwise, set the URL to null.
-         Uri.parse("http://host/path"),
-         // TODO: Make sure this auto-generated app URL is correct.
-         Uri.parse("android-app://mun.treehsbeginandro_stormy.ui/http/host/path")
-         );
-         AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);*/
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        /**Action viewAction = Action.newAction(
-         Action.TYPE_VIEW, // TODO: choose an action type.
-         "Maps Page", // TODO: Define a title for the content shown.
-         // TODO: If you have web page content that matches this app activity's content,
-         // make sure this auto-generated web page URL is correct.
-         // Otherwise, set the URL to null.
-         Uri.parse("http://host/path"),
-         // TODO: Make sure this auto-generated app URL is correct.
-         Uri.parse("android-app://mun.treehsbeginandro_stormy.ui/http/host/path")
-         );
-         AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);*/
         mGoogleApiClient.disconnect();
     }
 

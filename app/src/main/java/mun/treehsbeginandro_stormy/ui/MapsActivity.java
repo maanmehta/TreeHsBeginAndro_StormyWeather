@@ -140,24 +140,24 @@ public class MapsActivity extends FragmentActivity
     public void onConnected(@Nullable Bundle bundle) {
         Log.d(TAG, "*********** onConnected event");
 
-        // TODO: Check Permissions code
-        /**
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-         */
-
         findLocation();
     }
 
     private void findLocation() {
+
+        // TODO: Check Permissions code
+        /**
+         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+         // TODO: Consider calling
+         //    ActivityCompat#requestPermissions
+         // here to request the missing permissions, and then overriding
+         //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+         //                                          int[] grantResults)
+         // to handle the case where the user grants the permission. See the documentation
+         // for ActivityCompat#requestPermissions for more details.
+         return;
+         }
+         */
 
         Log.d(TAG, "*********** findLocation method started. Finding current Location started");
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -186,14 +186,19 @@ public class MapsActivity extends FragmentActivity
         mMap.addMarker(options);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng,16));
 
-
         // Zoom out to zoom level 10, animating with a duration of 2 seconds.
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(17), 6000, null);
 
+        // use reverse GeoCoding to find nearest address from the Location (latitude and logitude)
         startGeoCodingIntentService(location);
     }
 
+
+    /**
+    * Start an IntentService that will do reverse GeoCoding to find nearest
+    * address from the Location (latitude and longitude)
+    */
     private void startGeoCodingIntentService(Location location) {
         Log.d(TAG, "********** Starting GeoCoding Intent Service method");
         Intent intent = new Intent(this, FetchAddressIntentService.class);
@@ -237,7 +242,7 @@ public class MapsActivity extends FragmentActivity
         if (mGoogleApiClient.isConnected()) {
 
             // remove location Updates when the application pauses so it does not continue to request
-            //location updates and drain power and battery. When the app resumes, it will need
+            // location updates and drain power and battery. When the app resumes, it will need
             // again start requesting location updates. In our code, onResume, calls connect which
             // calls onConnected with is where we have added code to requestLocationUpdates again
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
@@ -257,40 +262,13 @@ public class MapsActivity extends FragmentActivity
     public void onStart() {
         super.onStart();
 
-        // TODO: Fix App Index code - find right value for host and path
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         mGoogleApiClient.connect();
-        /**Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Maps Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://mun.treehsbeginandro_stormy.ui/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);*/
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        /**Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Maps Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://mun.treehsbeginandro_stormy.ui/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);*/
         mGoogleApiClient.disconnect();
     }
 
