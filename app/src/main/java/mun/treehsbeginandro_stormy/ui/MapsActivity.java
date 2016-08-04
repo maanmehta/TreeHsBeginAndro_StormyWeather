@@ -159,7 +159,10 @@ public class MapsActivity extends FragmentActivity
          }
          */
 
-        Log.d(TAG, "*********** findLocation method started. Finding current Location started");
+        // set default text
+        mAddressValueTextView.setText("Nearest Address: \n\n" + "loading ...\n   ");
+
+                Log.d(TAG, "*********** findLocation method started. Finding current Location started");
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if (mCurrentLocation == null) {

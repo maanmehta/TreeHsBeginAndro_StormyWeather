@@ -23,30 +23,30 @@
             android:id="@+id/yourLocationLabelTextView"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:textColor="@android:color/white"
             android:textSize="24sp"/>
 
         <fragment
-            xmlns:map="http://schemas.android.com/apk/res-auto"
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="wrap_content"
-            android:layout_height="350dp"
+            android:layout_height="wrap_content"
             tools:context="mun.treehsbeginandro_stormy.ui.MapsActivity"
             android:layout_below="@+id/yourLocationLabelTextView"
             android:layout_centerHorizontal="true"
-            android:layout_margin="15dp"/>
+            android:layout_margin="15dp"
+            android:layout_above="@+id/addressValueTextView"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="loading .."
+            android:text="..."
             android:id="@+id/addressValueTextView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
             android:textColor="#aaffffff"
-            android:layout_below="@+id/map"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="false"
+            android:layout_alignLeft="@+id/map"/>
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
