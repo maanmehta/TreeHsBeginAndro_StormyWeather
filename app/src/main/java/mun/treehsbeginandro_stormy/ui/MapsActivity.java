@@ -12,7 +12,10 @@ import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +48,8 @@ public class MapsActivity extends FragmentActivity
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
     private TextView mAddressValueTextView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RelativeLayout mRL;
 
     public static final String TAG = MapsActivity.class.getSimpleName();
 
@@ -66,6 +71,32 @@ public class MapsActivity extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        //Code for Swipe Refresh
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeToRefresh4Maps);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.Red,R.color.Orange,R.color.Blue,R.color.Green);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.v(TAG,"************** MAPS - SWIPE REFRESH EVENT TRIGGERED!!!!!");
+                findLocation();
+            }
+        });
+
+        // Bug fix for Swipe Refresh - Adding onClickListener to RelativeLayout inside the SwipeRefresh
+        // This was done only to fix the bug that animation for SwipeRefresh was not working properly
+        // So added the empty onClick on the encompassing RelativeLayout
+        // Got this idea as I noticed that animation for swipe refresh worked fine only
+        // on widgets that had set an onClickListener and not on other parts of the screen, so
+        // I added OnClickListener to the whole RelativeLayout and voila
+        mRL = (RelativeLayout) findViewById(R.id.topRL4Maps);
+        mRL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Just empty method - do nothing
+            }
+        });
 
         mResultReceiver = new AddressResultReceiver(new Handler());
 
@@ -107,7 +138,7 @@ public class MapsActivity extends FragmentActivity
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "*********** Location services connected.");
+        Log.d(TAG, "*********** onConnected event");
 
         // TODO: Check Permissions code
         /**
@@ -123,6 +154,12 @@ public class MapsActivity extends FragmentActivity
         }
          */
 
+        findLocation();
+    }
+
+    private void findLocation() {
+
+        Log.d(TAG, "*********** findLocation method started. Finding current Location started");
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if (mCurrentLocation == null) {
@@ -298,6 +335,9 @@ public class MapsActivity extends FragmentActivity
                 //error scenario, so display error message sent by the FetchAddressIntentService
                 Toast.makeText(MapsActivity.this, "Error: " + resultData.getString(Constants.RCVR_RESULT_MSG_KEY), Toast.LENGTH_LONG).show();
             }
+
+
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 }
