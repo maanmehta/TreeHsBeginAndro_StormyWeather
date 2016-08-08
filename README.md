@@ -1,7 +1,7 @@
 # Weather Android App
 Detailed Design and Functionality
 
-## About this app
+### About this app
 
 This android app provides following features using established Google design patterns and Google APIs:
 
@@ -12,12 +12,12 @@ This android app provides following features using established Google design pat
 5. Displays hourly forecast
 6. Displays current location in a Google Map view and the nearest address determined using reverse GeoCoding
 
-## About this document
+### About this document
 Purpose of this document is to provide:
  - a detailed overview of functionality provided by this app,
  - detailed technical design for important features
 
-# Main Screens / Activities
+# 1.0 Main Screens / Activities
 
 The app has following screens or activities:
 
@@ -26,10 +26,10 @@ The app has following screens or activities:
 - 7-day Forecast
 - Hourly Forecast
 
-# Current Weather
+# 2.0 Current Weather
 
-# Current Location
+# 3.0 Current Location
 
-# 7-Day Forecast
+# 4.0 7-Day Forecast
 
-# Hourly Forecast
+# 5.0 Hourly Forecast
