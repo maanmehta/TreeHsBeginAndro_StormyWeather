@@ -152,13 +152,12 @@ public void onStop() {
 }
 ```
 
-###onLocationChange
-Since we are requesting location updates, app will continue to get the new location, therefore, we need to save the changed location to our mCurrentLocation property of the class
+###onLocationChanged
+Since we are requesting location updates, app will continue to get the new location object, therefore, in the `onLocationChaged` method we need to save the changed location to our mCurrentLocation property of the class
 ```java
 @Override
 public void onLocationChanged(Location location) {
     mCurrentLocation = location;
-    startGeoCodingIntentService(location);
 }
 ```
 ## 2.4 Swipe down to refresh screen using SwipeRefreshLayout
