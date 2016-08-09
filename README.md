@@ -106,7 +106,7 @@ getForecast();
 For our app, we decided to use fine location detection, so that your app can get as precise a location as possible from the available location providers. For this, we added the following `uses-permission` element in our app manifest file as follows:
 
 ```xml
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
 
 ### Activity lifecycle methods - onStart, onResume, onPause and onStop
@@ -152,6 +152,15 @@ public void onStop() {
 }
 ```
 
+###onLocationChange
+Since we are requesting location updates, app will continue to get the new location, therefore, we need to save the changed location to our mCurrentLocation property of the class
+```java
+@Override
+public void onLocationChanged(Location location) {
+    mCurrentLocation = location;
+    startGeoCodingIntentService(location);
+}
+```
 ## 2.4 Swipe down to refresh screen using SwipeRefreshLayout
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
 
