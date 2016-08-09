@@ -31,7 +31,7 @@ The app has following screens or activities:
 ## 2.1 User Interface
 ![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/CurrentWeather.png)
 
-## 2.2 Refresh - SwipeRefresh
+## 2.2 onRefresh using SwipeRefreshLayout
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
 
 ```java
