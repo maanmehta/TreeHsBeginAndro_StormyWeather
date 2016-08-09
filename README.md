@@ -153,7 +153,7 @@ public void onStop() {
 ```
 
 ###onLocationChanged
-Since we are requesting location updates, app will continue to get the new location object, therefore, in the `onLocationChaged` method we need to save the changed location to our mCurrentLocation property of the class
+Since we are requesting location updates, app will continue to get the new location object, therefore, in the `onLocationChanged` method we need to save the changed location to our mCurrentLocation property of the class
 ```java
 @Override
 public void onLocationChanged(Location location) {
@@ -222,7 +222,7 @@ mRL.setOnClickListener(new View.OnClickListener() {
 ## 3.1 User Interface
 ![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/YourLocation.png)
 
-## 3.2 Gets Google Maps API Key
+## 3.2 Get Google Maps API Key
 
 Project Id - <automatically named by google maps api when I created a new project)
 API Key name: <You provide this on Google wizard>
