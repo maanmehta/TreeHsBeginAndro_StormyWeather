@@ -160,7 +160,12 @@ public void onLocationChanged(Location location) {
     mCurrentLocation = location;
 }
 ```
-## 2.4 Swipe down to refresh screen using SwipeRefreshLayout
+
+## 2.4 Get Weather forecast for current location - Call REST web service
+
+## 2.5 Reverse GeoCoding - Get nearest address based on current location
+
+## 2.6 Swipe down to refresh screen using SwipeRefreshLayout
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
 
 Used `SwipeRefreshLayout` to implement the functionality where the user can swipe or drag down the screen to refresh its contents. When the user drags or swipes down the screen, screen shows a circular spinning progress icon and `onRefresh` event is triggered and the app developer can handle that event and implement the desired functionality. In this app we are calling our `getForecast()` when we handle that event.
