@@ -28,8 +28,16 @@ The app has following screens or activities:
 
 # 2 Current Weather
 
-## 2.1 User Interface
+## 2.1 User Interface and Functionality
 ![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/CurrentWeather.png)
+
+Above screenshot shows the main screen of the app that displays the current weather conditions. It implements following functionality:
+* When the user clicks the temperature text, it toggles from celsius to Fahrenheit as shown in the above screenshots
+* Location of the user is detected automatically using Location Services.
+* We then get the user's current Latitude and Longitude from the Location object
+* User's current latitude and longitude are then sent as URL parameters to REST web service call to forecast.io to receive the detailed weather data. This weather dats is received in JSON format and contains current weather details and hourly and daily forecast.
+* Screen displays user's current city which is determined using Reverse-Gecoding from the user's Location object
+* At the bottom of the screen, there are two buttons that start two new activities - one  displays hourly forecast and the other displays next week's forecast
 
 ## 2.2 Swipe down to refresh screen using SwipeRefreshLayout
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
