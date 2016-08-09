@@ -33,6 +33,13 @@ The app has following screens or activities:
 
 # 3 Current Location
 
-# 4 7-Day Forecast
+## 3.1 User Interface
+![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/YourLocation.png)
+
+# 4 Next 7 days Forecast
+## 4.1 User Interface
+![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/Next7DaysForecast.png)
 
 # 5 Hourly Forecast
+## 5.1 User Interface
+![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/HourlyForecast.png)
