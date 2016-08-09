@@ -495,7 +495,6 @@ public class MainActivity extends AppCompatActivity
 
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-        // if location is not null, start the Reverse GeoCoding Intent service asynchronously
         if (mCurrentLocation == null) {
             // Location can be null when the last location is unknown, therefore getLastLocation
             // returns null location, so we need to use requestLocationUpdates api and provide a
@@ -503,10 +502,11 @@ public class MainActivity extends AppCompatActivity
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
         else {
+            // if location is not null, start the Reverse GeoCoding Intent service asynchronously
             startGeoCodingIntentService(mCurrentLocation);
         }
 
-        // get Forecast JSON from weather webservice
+        // Now that we have location object, we can call our custom method to get Forecast JSON from weather webservice
         getForecast();
     }
 
@@ -542,7 +542,6 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        // setUpMapIfNeeded();
         mGoogleApiClient.connect();
     }
 

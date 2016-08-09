@@ -91,12 +91,64 @@ Get the current location in the onConnected method as follows
 ```java
 mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-// if location is not null, start the Reverse GeoCoding Intent service asynchronously
 if (mCurrentLocation == null) {
     // Location can be null when the last location is unknown, therefore getLastLocation
     // returns null location, so we need to use requestLocationUpdates api and provide a
     // LocationRequest object
     LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+}
+
+// Now that we have location object, we can call our custom method to get Forecast JSON from weather webservice
+getForecast();
+```
+
+### Permission to get precise location with ACCESS_FINE_LOCATION
+For our app, we decided to use fine location detection, so that your app can get as precise a location as possible from the available location providers. For this, we added the following `uses-permission` element in our app manifest file as follows:
+
+```xml
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+```
+
+### Activity lifecycle methods - onStart, onResume, onPause and onStop
+
+In the activity lifecycle methods, connect and disconnect GoogleApiClient object and since in onConnected, we called requestLocationUpdates, in onPause, we should call removeLocationUpdates so we ap is no longer getting loation updates when it has paused
+
+```java
+@Override
+public void onStart() {
+    super.onStart();
+
+    mGoogleApiClient.connect();
+}
+
+@Override
+protected void onResume() {
+    super.onResume();
+
+    mGoogleApiClient.connect();
+}
+
+@Override
+protected void onPause() {
+    super.onPause();
+    if (mGoogleApiClient.isConnected()) {
+
+        // remove location Updates when the application pauses so it does not continue to request
+        //location updates and drain power and battery. When the app resumes, it will need
+        // again start requesting location updates. In our code, onResume, calls connect which
+        // calls onConnected with is where we have added code to requestLocationUpdates again
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+
+        // onPause, disconnect GoogleAPIClient, on Resume, we will need to connect again
+        mGoogleApiClient.disconnect();
+    }
+}
+
+@Override
+public void onStop() {
+    super.onStop();
+
+    mGoogleApiClient.disconnect();
 }
 ```
 
