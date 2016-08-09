@@ -38,8 +38,14 @@ Above screenshot shows the main screen of the app that displays the current weat
 * User's current latitude and longitude are then sent as URL parameters to REST web service call to forecast.io to receive the detailed weather data. This weather dats is received in JSON format and contains current weather details and hourly and daily forecast.
 * Screen displays user's current city which is determined using Reverse-Gecoding from the user's Location object
 * At the bottom of the screen, there are two buttons that start two new activities - one  displays hourly forecast and the other displays next week's forecast
+* Map Activity - If the user clicks on either the City name or the weather condition icon at the top of the screen, a new activity (screen) is displayed that shows users current location in a map fragment and also displays user's nearest address.
 
-## 2.2 Swipe down to refresh screen using SwipeRefreshLayout
+## 2.2 Main code artifacts for this Activity
+* View (Layout XML) - [activity_main.xml](https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/blob/master/app/src/main/res/layout/activity_main.xml)
+* Activity - [MainActivity.java](https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/blob/master/app/src/main/java/mun/treehsbeginandro_stormy/ui/MainActivity.java)
+* Model Classes - [Forecast.java, Current.java, Hour.java and Day.java](https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/tree/master/app/src/main/java/mun/treehsbeginandro_stormy/weather)
+
+## 2.3 Swipe down to refresh screen using SwipeRefreshLayout
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
 
 Used `SwipeRefreshLayout` to implement the functionality where the user can swipe or drag down the screen to refresh its contents. When the user drags or swipes down the screen, screen shows a circular spinning progress icon and `onRefresh` event is triggered and the app developer can handle that event and implement the desired functionality. In this app we are calling our `getForecast()` when we handle that event.
