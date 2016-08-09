@@ -22,8 +22,8 @@ Purpose of this document is to provide:
 The app has following screens or activities:
 
 - Current Weather
-- Current Location
-- 7-day Forecast
+- Your Location
+- Next 7-days Forecast
 - Hourly Forecast
 
 # 2 Current Weather
@@ -31,12 +31,12 @@ The app has following screens or activities:
 ## 2.1 User Interface
 [Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/CurrentWeather.png)
 
-# 3 Current Location
+# 3 Your Location
 
 ## 3.1 User Interface
 ![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/YourLocation.png)
 
-# 4 Next 7 days Forecast
+# 4 Next 7-days Forecast
 ## 4.1 User Interface
 ![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/Next7DaysForecast.png)
 
