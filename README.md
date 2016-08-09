@@ -34,7 +34,7 @@ The app has following screens or activities:
 ## 2.2 onRefresh using SwipeRefreshLayout
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
 
-Used SwipeRefreshLayout to implement the functionality where the user can 'swipe or drag down the screen' to refresh its contents. When the user drags or swipes down the screen, `onRefresh` event is triggered and the app developer can handle that event and implement the desired functionality. In this app we are calling our `getForecast()` when we handle that event
+Used `SwipeRefreshLayout` to implement the functionality where the user can swipe or drag down the screen to refresh its contents. When the user drags or swipes down the screen, screen shows a circular spinning progress icon and `onRefresh` event is triggered and the app developer can handle that event and implement the desired functionality. In this app we are calling our `getForecast()` when we handle that event. Following is the code snippet from the `onCreate()` method of the `MainActivity.java` where we set `OnRefreshListener` and handle the `OnRefresh()` method.
 
 ```java
 mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeToRefresh);
