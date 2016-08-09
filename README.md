@@ -74,6 +74,20 @@ mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListene
 });
 ```
 
+### Bug with SwipeRefreshLayout
+I encountered a bug with SwipeRefreshLayout where the swipe down functionality would not trigger properly. I noticed that circular progress animation did not work properly and also the event was not fired most of the time. Then I stumbled upon a pattern that it worked fine whenever I started my swipe down on a TextField which had an `OnClickListener` set. To verify this, I set `OnClickListener` to another icon on the screen and saw the same behaviour. Therefore, to fix this bug, I set an `OnClickListener` to the top most `RelativeLayout` which was a child element to SwipeRefreshLayout and kept its `onClick()` method just empty. This fixed the bug and now the screen could be dragged down from anywhere. Here is the code snippet from the `onCreate` method of the `MainActivity.java`
+
+```java
+// Bug fix for Swipe Refresh - Adding onClickListener to RelativeLayout inside the SwipeRefresh
+mRL = (RelativeLayout) findViewById(R.id.topRL4MainActivity);
+mRL.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        // Just empty method - do nothing
+    }
+});
+```
+
 
 
 # 3 Your Location
