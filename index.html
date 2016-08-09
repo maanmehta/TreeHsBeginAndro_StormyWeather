@@ -1,0 +1,368 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Weather App by maanmehta</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Weather App</h1>
+          <p>This android app determines users current location automatically and then retrieves and displays current  weather data and hourly and daily forecast for next seven days</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/maanmehta">maanmehta</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a id="weather-android-app" class="anchor" href="#weather-android-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Weather Android App</h1>
+
+<h2>
+<a id="detailed-design-and-functionality" class="anchor" href="#detailed-design-and-functionality" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Detailed Design and Functionality</h2>
+
+<h3>
+<a id="about-this-app" class="anchor" href="#about-this-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About this app</h3>
+
+<p>This android app provides following features using established Google design patterns and Google APIs:</p>
+
+<ol>
+<li>Automatically determine current location using Location Services</li>
+<li>Retrieves Weather data from forecast.io REST web service</li>
+<li>Displays details of current weather on the main screen</li>
+<li>Displays 7-day forecast</li>
+<li>Displays hourly forecast</li>
+<li>Displays current location in a Google Map view and the nearest address determined using reverse GeoCoding</li>
+</ol>
+
+<h3>
+<a id="about-this-document" class="anchor" href="#about-this-document" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About this document</h3>
+
+<p>Purpose of this document is to provide:</p>
+
+<ul>
+<li>functionality provided by this app,</li>
+<li>detailed technical design for important features</li>
+</ul>
+
+<h1>
+<a id="1-main-screens--activities" class="anchor" href="#1-main-screens--activities" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1 Main Screens / Activities</h1>
+
+<p>The app has following screens or activities:</p>
+
+<ul>
+<li>Current Weather</li>
+<li>Your Location</li>
+<li>Next 7-days Forecast</li>
+<li>Hourly Forecast</li>
+</ul>
+
+<h1>
+<a id="2-current-weather" class="anchor" href="#2-current-weather" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2 Current Weather</h1>
+
+<h2>
+<a id="21-user-interface-and-functionality" class="anchor" href="#21-user-interface-and-functionality" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.1 User Interface and Functionality</h2>
+
+<p><img src="https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/CurrentWeather.png" alt="Current Weather"></p>
+
+<p>Above screenshot shows the main screen of the app that displays the current weather conditions. It implements following functionality:</p>
+
+<ul>
+<li>When the user clicks the temperature text, it toggles from celsius to Fahrenheit as shown in the above screenshots</li>
+<li>Location of the user is detected automatically using Location Services.</li>
+<li>We then get the user's current Latitude and Longitude from the Location object</li>
+<li>User's current latitude and longitude are then sent as URL parameters to REST web service call to forecast.io to receive the detailed weather data. This weather dats is received in JSON format and contains current weather details and hourly and daily forecast.</li>
+<li>Screen displays user's current city which is determined using Reverse-Gecoding from the user's Location object</li>
+<li>At the bottom of the screen, there are two buttons that start two new activities - one  displays hourly forecast and the other displays next week's forecast</li>
+<li>Map Activity - If the user clicks on either the City name or the weather condition icon at the top of the screen, a new activity (screen) is displayed that shows users current location in a map fragment and also displays user's nearest address.</li>
+</ul>
+
+<h2>
+<a id="22-main-code-artifacts-for-this-activity" class="anchor" href="#22-main-code-artifacts-for-this-activity" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.2 Main code artifacts for this Activity</h2>
+
+<ul>
+<li>View (Layout XML) - <a href="https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/blob/master/app/src/main/res/layout/activity_main.xml">activity_main.xml</a>
+</li>
+<li>Activity - <a href="https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/blob/master/app/src/main/java/mun/treehsbeginandro_stormy/ui/MainActivity.java">MainActivity.java</a>
+</li>
+<li>Model Classes - <a href="https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/tree/master/app/src/main/java/mun/treehsbeginandro_stormy/weather">Forecast.java, Current.java, Hour.java and Day.java</a>
+</li>
+</ul>
+
+<h2>
+<a id="23-adding-automatic-location-determination---google-play-services-location-api" class="anchor" href="#23-adding-automatic-location-determination---google-play-services-location-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.3 Adding automatic location determination - Google Play Services Location API</h2>
+
+<p>Google Play Services provides provides Location API which you can use to add location awareness to android apps. Google Training website has a step-by-step guide at this <a href="https://developer.android.com/training/location/index.html">link</a>. Follow the steps in this training guide.</p>
+
+<h3>
+<a id="implement-listeners" class="anchor" href="#implement-listeners" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implement Listeners</h3>
+
+<p>Add following Listeners to the <code>MainActivity.java</code>:</p>
+
+<ul>
+<li>GoogleApiClient.ConnectionCallbacks,</li>
+<li>GoogleApiClient.OnConnectionFailedListener,</li>
+<li>LocationListener</li>
+</ul>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivity</span> <span class="pl-k">extends</span> <span class="pl-e">AppCompatActivity</span>
+        <span class="pl-k">implements</span>
+        <span class="pl-e">GoogleApiClient</span>.<span class="pl-e">ConnectionCallbacks</span>,
+        <span class="pl-e">GoogleApiClient</span>.<span class="pl-e">OnConnectionFailedListener</span>,
+        <span class="pl-e">LocationListener</span></pre></div>
+
+<h3>
+<a id="oncreate-method" class="anchor" href="#oncreate-method" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>onCreate method</h3>
+
+<p>Create and initialize the <code>GoogleApiClient</code> and <code>LocationRequest</code> objects in the <code>onCreate</code> method as follows:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// Build and initialize GoogleApiClient instance</span>
+mGoogleApiClient <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GoogleApiClient</span>.<span class="pl-smi">Builder</span>(<span class="pl-v">this</span>)
+        .addConnectionCallbacks(<span class="pl-v">this</span>)
+        .addOnConnectionFailedListener(<span class="pl-v">this</span>)
+        .addApi(<span class="pl-smi">LocationServices</span><span class="pl-c1"><span class="pl-k">.</span>API</span>)
+        <span class="pl-c">//.addApi(AppIndex.API)</span>
+        .build();
+
+<span class="pl-c">// Create the LocationRequest object - this will have minimal impacts on power</span>
+mLocationRequest <span class="pl-k">=</span> <span class="pl-smi">LocationRequest</span><span class="pl-k">.</span>create()
+        .setPriority(<span class="pl-smi">LocationRequest</span><span class="pl-c1"><span class="pl-k">.</span>PRIORITY_HIGH_ACCURACY</span>)
+        .setInterval(<span class="pl-c1">60</span> <span class="pl-k">*</span> <span class="pl-c1">60</span> <span class="pl-k">*</span> <span class="pl-c1">1000</span>)        <span class="pl-c">// 60 minutes, in milliseconds</span>
+        .setFastestInterval(<span class="pl-c1">1</span> <span class="pl-k">*</span> <span class="pl-c1">60</span> <span class="pl-k">*</span> <span class="pl-c1">1000</span>); <span class="pl-c">// 1 minute, in milliseconds</span></pre></div>
+
+<h3>
+<a id="onconnected-method" class="anchor" href="#onconnected-method" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>onConnected method</h3>
+
+<p>Get the current location in the onConnected method as follows</p>
+
+<div class="highlight highlight-source-java"><pre>mCurrentLocation <span class="pl-k">=</span> <span class="pl-smi">LocationServices</span><span class="pl-k">.</span><span class="pl-smi">FusedLocationApi</span><span class="pl-k">.</span>getLastLocation(mGoogleApiClient);
+
+<span class="pl-k">if</span> (mCurrentLocation <span class="pl-k">==</span> <span class="pl-c1">null</span>) {
+    <span class="pl-c">// Location can be null when the last location is unknown, therefore getLastLocation</span>
+    <span class="pl-c">// returns null location, so we need to use requestLocationUpdates api and provide a</span>
+    <span class="pl-c">// LocationRequest object</span>
+    <span class="pl-smi">LocationServices</span><span class="pl-k">.</span><span class="pl-smi">FusedLocationApi</span><span class="pl-k">.</span>requestLocationUpdates(mGoogleApiClient, mLocationRequest, <span class="pl-v">this</span>);
+}
+
+<span class="pl-c">// Now that we have location object, we can call our custom method to get Forecast JSON from weather webservice</span>
+getForecast();</pre></div>
+
+<h3>
+<a id="permission-to-get-precise-location-with-access_fine_location" class="anchor" href="#permission-to-get-precise-location-with-access_fine_location" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission to get precise location with ACCESS_FINE_LOCATION</h3>
+
+<p>For our app, we decided to use fine location detection, so that your app can get as precise a location as possible from the available location providers. For this, we added the following <code>uses-permission</code> element in our app manifest file as follows:</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">uses-permission</span> <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>android.permission.ACCESS_FINE_LOCATION<span class="pl-pds">"</span></span>/&gt;</pre></div>
+
+<h3>
+<a id="activity-lifecycle-methods---onstart-onresume-onpause-and-onstop" class="anchor" href="#activity-lifecycle-methods---onstart-onresume-onpause-and-onstop" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Activity lifecycle methods - onStart, onResume, onPause and onStop</h3>
+
+<p>In the activity lifecycle methods, connect and disconnect GoogleApiClient object and since in onConnected, we called requestLocationUpdates, in onPause, we should call removeLocationUpdates so we ap is no longer getting loation updates when it has paused</p>
+
+<div class="highlight highlight-source-java"><pre>@<span class="pl-smi">Override</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> onStart() {
+    <span class="pl-v">super</span><span class="pl-k">.</span>onStart();
+
+    mGoogleApiClient<span class="pl-k">.</span>connect();
+}
+
+@<span class="pl-smi">Override</span>
+<span class="pl-k">protected</span> <span class="pl-k">void</span> onResume() {
+    <span class="pl-v">super</span><span class="pl-k">.</span>onResume();
+
+    mGoogleApiClient<span class="pl-k">.</span>connect();
+}
+
+@<span class="pl-smi">Override</span>
+<span class="pl-k">protected</span> <span class="pl-k">void</span> onPause() {
+    <span class="pl-v">super</span><span class="pl-k">.</span>onPause();
+    <span class="pl-k">if</span> (mGoogleApiClient<span class="pl-k">.</span>isConnected()) {
+
+        <span class="pl-c">// remove location Updates when the application pauses so it does not continue to request</span>
+        <span class="pl-c">//location updates and drain power and battery. When the app resumes, it will need</span>
+        <span class="pl-c">// again start requesting location updates. In our code, onResume, calls connect which</span>
+        <span class="pl-c">// calls onConnected with is where we have added code to requestLocationUpdates again</span>
+        <span class="pl-smi">LocationServices</span><span class="pl-k">.</span><span class="pl-smi">FusedLocationApi</span><span class="pl-k">.</span>removeLocationUpdates(mGoogleApiClient, <span class="pl-v">this</span>);
+
+        <span class="pl-c">// onPause, disconnect GoogleAPIClient, on Resume, we will need to connect again</span>
+        mGoogleApiClient<span class="pl-k">.</span>disconnect();
+    }
+}
+
+@<span class="pl-smi">Override</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> onStop() {
+    <span class="pl-v">super</span><span class="pl-k">.</span>onStop();
+
+    mGoogleApiClient<span class="pl-k">.</span>disconnect();
+}</pre></div>
+
+<h3>
+<a id="onlocationchanged" class="anchor" href="#onlocationchanged" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>onLocationChanged</h3>
+
+<p>Since we are requesting location updates, app will continue to get the new location object, therefore, in the <code>onLocationChanged</code> method we need to save the changed location to our mCurrentLocation property of the class</p>
+
+<div class="highlight highlight-source-java"><pre>@<span class="pl-smi">Override</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> onLocationChanged(<span class="pl-smi">Location</span> location) {
+    mCurrentLocation <span class="pl-k">=</span> location;
+}</pre></div>
+
+<h2>
+<a id="24-get-weather-forecast-for-current-location---call-rest-web-service" class="anchor" href="#24-get-weather-forecast-for-current-location---call-rest-web-service" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.4 Get Weather forecast for current location - Call REST web service</h2>
+
+<h2>
+<a id="25-reverse-geocoding---get-nearest-address-based-on-current-location" class="anchor" href="#25-reverse-geocoding---get-nearest-address-based-on-current-location" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.5 Reverse GeoCoding - Get nearest address based on current location</h2>
+
+<h2>
+<a id="26-swipe-down-to-refresh-screen-using-swiperefreshlayout" class="anchor" href="#26-swipe-down-to-refresh-screen-using-swiperefreshlayout" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.6 Swipe down to refresh screen using SwipeRefreshLayout</h2>
+
+<p><img src="https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png" alt="SwipeRefresh1"></p>
+
+<p>Used <code>SwipeRefreshLayout</code> to implement the functionality where the user can swipe or drag down the screen to refresh its contents. When the user drags or swipes down the screen, screen shows a circular spinning progress icon and <code>onRefresh</code> event is triggered and the app developer can handle that event and implement the desired functionality. In this app we are calling our <code>getForecast()</code> when we handle that event.</p>
+
+<h3>
+<a id="layout" class="anchor" href="#layout" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Layout</h3>
+
+<p>Following is the layout xml snippet where the SwipeRefreshLayout is the top level layout now that wraps the top RelativeLayout</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">android</span>.support.v4.widget.SwipeRefreshLayout
+    <span class="pl-e">xmlns</span><span class="pl-e">:</span><span class="pl-e">android</span>=<span class="pl-s"><span class="pl-pds">"</span>http://schemas.android.com/apk/res/android<span class="pl-pds">"</span></span>
+    <span class="pl-e">xmlns</span><span class="pl-e">:</span><span class="pl-e">tools</span>=<span class="pl-s"><span class="pl-pds">"</span>http://schemas.android.com/tools<span class="pl-pds">"</span></span>
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>@+id/swipeToRefresh<span class="pl-pds">"</span></span>
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_width</span>=<span class="pl-s"><span class="pl-pds">"</span>match_parent<span class="pl-pds">"</span></span>
+    <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_height</span>=<span class="pl-s"><span class="pl-pds">"</span>match_parent<span class="pl-pds">"</span></span>&gt;
+
+    &lt;<span class="pl-ent">RelativeLayout</span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>@+id/topRL4MainActivity<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_width</span>=<span class="pl-s"><span class="pl-pds">"</span>match_parent<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">layout_height</span>=<span class="pl-s"><span class="pl-pds">"</span>match_parent<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">background</span>=<span class="pl-s"><span class="pl-pds">"</span>@drawable/bg_gradient_blue<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">paddingLeft</span>=<span class="pl-s"><span class="pl-pds">"</span>@dimen/activity_horizontal_margin<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">paddingRight</span>=<span class="pl-s"><span class="pl-pds">"</span>@dimen/activity_horizontal_margin<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">paddingTop</span>=<span class="pl-s"><span class="pl-pds">"</span>@dimen/activity_vertical_margin<span class="pl-pds">"</span></span>
+        <span class="pl-e">android</span><span class="pl-e">:</span><span class="pl-e">gravity</span>=<span class="pl-s"><span class="pl-pds">"</span>center<span class="pl-pds">"</span></span>
+        <span class="pl-e">tools</span><span class="pl-e">:</span><span class="pl-e">context</span>=<span class="pl-s"><span class="pl-pds">"</span>.ui.MainActivity<span class="pl-pds">"</span></span>&gt;</pre></div>
+
+<h3>
+<a id="onrefresh-method" class="anchor" href="#onrefresh-method" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>onRefresh() method</h3>
+
+<p>Following is the code snippet from the <code>onCreate()</code> method of the <code>MainActivity.java</code> where we set <code>OnRefreshListener</code> and handle the <code>OnRefresh()</code> method.</p>
+
+<div class="highlight highlight-source-java"><pre>mSwipeRefreshLayout <span class="pl-k">=</span> (<span class="pl-smi">SwipeRefreshLayout</span>)findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>swipeToRefresh);
+mSwipeRefreshLayout<span class="pl-k">.</span>setColorSchemeResources(<span class="pl-smi">R</span><span class="pl-k">.</span><span class="pl-smi">color<span class="pl-k">.</span>Red</span>,<span class="pl-smi">R</span><span class="pl-k">.</span><span class="pl-smi">color<span class="pl-k">.</span>Orange</span>,<span class="pl-smi">R</span><span class="pl-k">.</span><span class="pl-smi">color<span class="pl-k">.</span>Blue</span>,<span class="pl-smi">R</span><span class="pl-k">.</span><span class="pl-smi">color<span class="pl-k">.</span>Green</span>);
+mSwipeRefreshLayout<span class="pl-k">.</span>setOnRefreshListener(<span class="pl-k">new</span> <span class="pl-smi">SwipeRefreshLayout</span>.<span class="pl-smi">OnRefreshListener</span>() {
+     <span class="pl-k">@Override</span>
+     <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onRefresh</span>() {
+          <span class="pl-smi">Log</span><span class="pl-k">.</span>d(<span class="pl-c1">TAG</span>,<span class="pl-s"><span class="pl-pds">"</span>************** SWIPE REFRESH EVENT TRIGGERED!!!!!<span class="pl-pds">"</span></span>);
+          getForecast();
+});</pre></div>
+
+<h3>
+<a id="bug-with-swiperefreshlayout" class="anchor" href="#bug-with-swiperefreshlayout" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bug with SwipeRefreshLayout</h3>
+
+<p>I encountered a bug with SwipeRefreshLayout where the swipe down functionality would not trigger properly. I noticed that circular progress animation did not work properly and also the event was not fired most of the time. Then I stumbled upon a pattern that it worked fine whenever I started my swipe down on a TextField which had an <code>OnClickListener</code> set. To verify this, I set <code>OnClickListener</code> to another icon on the screen and saw the same behaviour. Therefore, to fix this bug, I set an <code>OnClickListener</code> to the top most <code>RelativeLayout</code> which was a child element to SwipeRefreshLayout and kept its <code>onClick()</code> method just empty. This fixed the bug and now the screen could be dragged down from anywhere. Here is the code snippet from the <code>onCreate</code> method of the <code>MainActivity.java</code></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// Bug fix for Swipe Refresh - Adding onClickListener to RelativeLayout inside the SwipeRefresh</span>
+mRL <span class="pl-k">=</span> (<span class="pl-smi">RelativeLayout</span>) findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>topRL4MainActivity);
+mRL<span class="pl-k">.</span>setOnClickListener(<span class="pl-k">new</span> <span class="pl-smi">View</span>.<span class="pl-smi">OnClickListener</span>() {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">View</span> <span class="pl-v">v</span>) {
+        <span class="pl-c">// Just empty method - do nothing</span>
+    }
+});</pre></div>
+
+<h1>
+<a id="3-your-location" class="anchor" href="#3-your-location" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3 Your Location</h1>
+
+<h2>
+<a id="31-user-interface" class="anchor" href="#31-user-interface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1 User Interface</h2>
+
+<p><img src="https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/YourLocation.png" alt="Current Weather"></p>
+
+<h2>
+<a id="32-get-google-maps-api-key" class="anchor" href="#32-get-google-maps-api-key" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.2 Get Google Maps API Key</h2>
+
+<p>Project Id - 
+Package name: Get this from your Android app's Manifest xml file</p>
+
+<p>To get Certificate fingerprint(MD5) code follow these steps</p>
+
+<ol>
+<li>Go to - C:\Program Files\Java\jdk1.6.0_26\bin</li>
+<li>Inside the bin folder run the jarsigner.exe file</li>
+<li>Open cmd prompt and execute the following two commands:</li>
+</ol>
+
+<pre lang="dos"><code>C:\Program Files\Java\jdk1.6.0_26\bin
+keytool -list -keystore "C:/Users/your user name/.android/debug.keystore"
+</code></pre>
+
+<p>It will ask for Keystore password now. The default is "android" type and enter</p>
+
+<p>My steps - Open Windows prompt</p>
+
+<pre lang="dos"><code>cd C:\Java\jdk1.8.0_91\bin
+
+C:\Java\jdk1.8.0_91\bin&gt;keytool -list -keystore "C:/Users/Mun/.android/debug.keystore"
+Enter keystore password: android
+
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+androiddebugkey, Jul 12, 2016, PrivateKeyEntry,
+Certificate fingerprint (SHA1): &lt;removed&gt;
+
+
+After entering the above SHA-1 fingerprint in google wizard, got the following API key
+&lt;removed&gt;
+
+</code></pre>
+
+<p>You can always see the Credentials you have created by visiting the following URL: <a href="https://console.developers.google.com/apis/credentials?project=evident-axle-138523&amp;authuser=1">https://console.developers.google.com/apis/credentials?project=evident-axle-138523&amp;authuser=1</a></p>
+
+<h1>
+<a id="4-next-7-days-forecast" class="anchor" href="#4-next-7-days-forecast" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4 Next 7-days Forecast</h1>
+
+<h2>
+<a id="41-user-interface" class="anchor" href="#41-user-interface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.1 User Interface</h2>
+
+<p><img src="https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/Next7DaysForecast.png" alt="Current Weather"></p>
+
+<h1>
+<a id="5-hourly-forecast" class="anchor" href="#5-hourly-forecast" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5 Hourly Forecast</h1>
+
+<h2>
+<a id="51-user-interface" class="anchor" href="#51-user-interface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.1 User Interface</h2>
+
+<p><img src="https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/HourlyForecast.png" alt="Current Weather"></p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
