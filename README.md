@@ -17,7 +17,7 @@ Purpose of this document is to provide:
  - functionality provided by this app,
  - detailed technical design for important features
 
-# 1. Main Screens / Activities
+# 1 Main Screens / Activities
 
 The app has following screens or activities:
 
@@ -26,10 +26,13 @@ The app has following screens or activities:
 - 7-day Forecast
 - Hourly Forecast
 
-# 2. Current Weather
+# 2 Current Weather
 
-# 3. Current Location
+## 2.1 User Interface
+![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/CurrentWeather.png)
 
-# 4. 7-Day Forecast
+# 3 Current Location
 
-# 5. Hourly Forecast
+# 4 7-Day Forecast
+
+# 5 Hourly Forecast
