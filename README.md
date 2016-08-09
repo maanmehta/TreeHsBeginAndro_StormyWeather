@@ -34,6 +34,19 @@ The app has following screens or activities:
 ## 2.2 Refresh - SwipeRefresh
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
 
+```java
+//Code for Swipe Refresh
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeToRefresh);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.Red,R.color.Orange,R.color.Blue,R.color.Green);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.v(TAG,"************** SWIPE REFRESH EVENT TRIGGERED!!!!!");
+                getForecast();
+            }
+        });
+```
+
 # 3 Your Location
 
 ## 3.1 User Interface

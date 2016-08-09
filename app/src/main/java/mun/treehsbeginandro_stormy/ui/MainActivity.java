@@ -515,7 +515,6 @@ public class MainActivity extends AppCompatActivity
         getForecast();
     }
 
-
     private void startGeoCodingIntentService(Location location) {
         Log.d(TAG, "********** Starting GeoCoding Intent Service method");
         Intent intent = new Intent(this, FetchAddressIntentService.class);
