@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity
         // Got this idea as I noticed that animation for swipe refresh worked fine only
         // on widgets that had set an onClickListener and not on other parts of the screen, so
         // I added OnClickListener to the whole RelativeLayout and voila
-        mRL = (RelativeLayout) findViewById(R.id.secondRL);
+        mRL = (RelativeLayout) findViewById(R.id.topRL4MainActivity);
         mRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

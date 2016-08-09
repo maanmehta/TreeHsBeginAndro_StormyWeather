@@ -31,10 +31,37 @@ The app has following screens or activities:
 ## 2.1 User Interface
 ![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/CurrentWeather.png)
 
-## 2.2 onRefresh using SwipeRefreshLayout
+## 2.2 Swipe down to refresh screen using SwipeRefreshLayout
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
 
-Used `SwipeRefreshLayout` to implement the functionality where the user can swipe or drag down the screen to refresh its contents. When the user drags or swipes down the screen, screen shows a circular spinning progress icon and `onRefresh` event is triggered and the app developer can handle that event and implement the desired functionality. In this app we are calling our `getForecast()` when we handle that event. Following is the code snippet from the `onCreate()` method of the `MainActivity.java` where we set `OnRefreshListener` and handle the `OnRefresh()` method.
+Used `SwipeRefreshLayout` to implement the functionality where the user can swipe or drag down the screen to refresh its contents. When the user drags or swipes down the screen, screen shows a circular spinning progress icon and `onRefresh` event is triggered and the app developer can handle that event and implement the desired functionality. In this app we are calling our `getForecast()` when we handle that event.
+
+### Layout
+
+Following is the layout xml snippet where the SwipeRefreshLayout is the top level layout now that wraps the top RelativeLayout
+
+```xml
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeToRefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/topRL4MainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gradient_blue"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:gravity="center"
+        tools:context=".ui.MainActivity">
+```
+
+### onRefresh() method
+Following is the code snippet from the `onCreate()` method of the `MainActivity.java` where we set `OnRefreshListener` and handle the `OnRefresh()` method.
 
 ```java
 mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeToRefresh);
@@ -44,9 +71,10 @@ mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListene
      public void onRefresh() {
           Log.d(TAG,"************** SWIPE REFRESH EVENT TRIGGERED!!!!!");
           getForecast();
-     
 });
 ```
+
+
 
 # 3 Your Location
 
