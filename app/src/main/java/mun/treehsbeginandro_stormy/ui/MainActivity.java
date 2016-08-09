@@ -238,8 +238,8 @@ public class MainActivity extends AppCompatActivity
         //apiKey for forecast.io REST web service
         String apiKeyForeCastIO = "006f325d675ba6c9883737d7add4eded";
 
-        // Hardcoded gps coordinates for 12 Kildonan
-        //double latitude= 43.6869674;  //12 Kildonan GPS coordinates
+        //Hardcoded gps coordinates for 12 Kildonan
+        //double latitude= 43.6869674;  // 12 Kildonan GPS coordinates
         //double longitude = -79.2663151; // 12 Kildonan
 
         //Hardcoded gps coordinates for Sandbanks Outlet beach area to test missing major city Name

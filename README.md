@@ -47,49 +47,58 @@ Above screenshot shows the main screen of the app that displays the current weat
 
 ## 2.3 Adding automatic location determination - Google Play Services Location API
 
-Google Play Services provides provides Location API which you can use to add location awareness to android apps. Google Training website has a step-by-step guide at this [link](https://developer.android.com/training/location/index.html)
+Google Play Services provides provides Location API which you can use to add location awareness to android apps. Google Training website has a step-by-step guide at this [link](https://developer.android.com/training/location/index.html). Follow the steps in this training guide.
 
-Follow the steps in above training guide and one of the first step is to get Google Play Services API Key. Below are some of my notes and steps I executed to obtain that key:
+### Implement Listeners
 
-## 3.1 Gets Google Maps API Key
+Add following Listeners to the `MainActivity.java`:
+- GoogleApiClient.ConnectionCallbacks,
+- GoogleApiClient.OnConnectionFailedListener,
+- LocationListener
 
-Project Id - <automatically named by google maps api when I created a new project)
-API Key name: <You provide this on Google wizard>
-Package name: Get this from your Android app's Manifest xml file
-
-To get Certificate fingerprint(MD5) code follow these steps
-
-1. Go to - C:\Program Files\Java\jdk1.6.0_26\bin
-2. Inside the bin folder run the jarsigner.exe file
-3. Open cmd prompt and execute the following two commands:
-```dos
-C:\Program Files\Java\jdk1.6.0_26\bin
-keytool -list -keystore "C:/Users/your user name/.android/debug.keystore"
-```
-It will ask for Keystore password now. The default is "android" type and enter
-
-
-My steps - Open Windows prompt
-```dos
-cd C:\Java\jdk1.8.0_91\bin
-
-C:\Java\jdk1.8.0_91\bin>keytool -list -keystore "C:/Users/Mun/.android/debug.keystore"
-Enter keystore password: android
-
-Keystore type: JKS
-Keystore provider: SUN
-
-Your keystore contains 1 entry
-
-androiddebugkey, Jul 12, 2016, PrivateKeyEntry,
-Certificate fingerprint (SHA1): <removed>
+```java
+public class MainActivity extends AppCompatActivity
+        implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener
 ```
 
-After entering the above SHA-1 fingerprint in google wizard, got the following API key
-<removed>
+### onCreate method
 
-You can always see the Credentials you have created by visiting the following URL: https://console.developers.google.com/apis/credentials?project=evident-axle-138523&authuser=1
+Create and initialize the `GoogleApiClient` and `LocationRequest` objects in the `onCreate` method as follows:
 
+```java
+// Build and initialize GoogleApiClient instance
+mGoogleApiClient = new GoogleApiClient.Builder(this)
+        .addConnectionCallbacks(this)
+        .addOnConnectionFailedListener(this)
+        .addApi(LocationServices.API)
+        //.addApi(AppIndex.API)
+        .build();
+
+// Create the LocationRequest object - this will have minimal impacts on power
+mLocationRequest = LocationRequest.create()
+        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        .setInterval(60 * 60 * 1000)        // 60 minutes, in milliseconds
+        .setFastestInterval(1 * 60 * 1000); // 1 minute, in milliseconds
+```
+
+### onConnected method
+
+Get the current location in the onConnected method as follows
+
+```java
+mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+// if location is not null, start the Reverse GeoCoding Intent service asynchronously
+if (mCurrentLocation == null) {
+    // Location can be null when the last location is unknown, therefore getLastLocation
+    // returns null location, so we need to use requestLocationUpdates api and provide a
+    // LocationRequest object
+    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+}
+```
 
 ## 2.4 Swipe down to refresh screen using SwipeRefreshLayout
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
@@ -148,12 +157,52 @@ mRL.setOnClickListener(new View.OnClickListener() {
 });
 ```
 
-
-
 # 3 Your Location
 
 ## 3.1 User Interface
 ![Current Weather](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/YourLocation.png)
+
+## 3.2 Gets Google Maps API Key
+
+Project Id - <automatically named by google maps api when I created a new project)
+API Key name: <You provide this on Google wizard>
+Package name: Get this from your Android app's Manifest xml file
+
+To get Certificate fingerprint(MD5) code follow these steps
+
+1. Go to - C:\Program Files\Java\jdk1.6.0_26\bin
+2. Inside the bin folder run the jarsigner.exe file
+3. Open cmd prompt and execute the following two commands:
+```dos
+C:\Program Files\Java\jdk1.6.0_26\bin
+keytool -list -keystore "C:/Users/your user name/.android/debug.keystore"
+```
+It will ask for Keystore password now. The default is "android" type and enter
+
+
+My steps - Open Windows prompt
+```dos
+cd C:\Java\jdk1.8.0_91\bin
+
+C:\Java\jdk1.8.0_91\bin>keytool -list -keystore "C:/Users/Mun/.android/debug.keystore"
+Enter keystore password: android
+
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+androiddebugkey, Jul 12, 2016, PrivateKeyEntry,
+Certificate fingerprint (SHA1): <removed>
+
+
+After entering the above SHA-1 fingerprint in google wizard, got the following API key
+<removed>
+
+```
+
+You can always see the Credentials you have created by visiting the following URL: https://console.developers.google.com/apis/credentials?project=evident-axle-138523&authuser=1
+
 
 # 4 Next 7-days Forecast
 ## 4.1 User Interface
