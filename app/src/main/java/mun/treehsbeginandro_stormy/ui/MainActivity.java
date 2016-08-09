@@ -231,13 +231,12 @@ public class MainActivity extends AppCompatActivity
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(60 * 60 * 1000)        // 60 minutes, in milliseconds
                 .setFastestInterval(1 * 60 * 1000); // 1 minute, in milliseconds
-
-
-        //getForecast();
     }
 
     private void getForecast() {
-        String apiKey = "006f325d675ba6c9883737d7add4eded";
+
+        //apiKey for forecast.io REST web service
+        String apiKeyForeCastIO = "006f325d675ba6c9883737d7add4eded";
 
         // Hardcoded gps coordinates for 12 Kildonan
         //double latitude= 43.6869674;  //12 Kildonan GPS coordinates
@@ -247,21 +246,17 @@ public class MainActivity extends AppCompatActivity
         //double latitude= 43.8979913;  //Sandbanks GPS coordinates
         //double longitude = -77.2254795; // Sandbanks
 
-
         // get lat and long from the location object obtained via Google Location Services
         double latitude = mCurrentLocation.getLatitude();
         double longitude = mCurrentLocation.getLongitude();
         Log.d(TAG,"******* Lat: " + latitude + " Long: " + longitude);
 
-
         String foreCastURL = "https://api.forecast.io/forecast/"
-                + apiKey + "/"
+                + apiKeyForeCastIO + "/"
                 + latitude + ","
                 + longitude;
 
         if (isNetworkAvailable()) {
-
-            // toggleRefreshIcon();
 
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(foreCastURL).build(); // provide url to request
@@ -515,17 +510,17 @@ public class MainActivity extends AppCompatActivity
         getForecast();
     }
 
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.d(TAG, "****** Location services suspended. Please reconnect.");
+    }
+
     private void startGeoCodingIntentService(Location location) {
         Log.d(TAG, "********** Starting GeoCoding Intent Service method");
         Intent intent = new Intent(this, FetchAddressIntentService.class);
         intent.putExtra(Constants.RECEIVER,mResultReceiver);
         intent.putExtra(Constants.LOCATION_DATA_EXTRA,mCurrentLocation);
         startService(intent);
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(TAG, "****** Location services suspended. Please reconnect.");
     }
 
     @Override
@@ -539,7 +534,7 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
             }
         } else {
-            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+            Log.e(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
     }
 

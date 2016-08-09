@@ -45,7 +45,53 @@ Above screenshot shows the main screen of the app that displays the current weat
 * Activity - [MainActivity.java](https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/blob/master/app/src/main/java/mun/treehsbeginandro_stormy/ui/MainActivity.java)
 * Model Classes - [Forecast.java, Current.java, Hour.java and Day.java](https://github.com/maanmehta/TreeHsBeginAndro_StormyWeather/tree/master/app/src/main/java/mun/treehsbeginandro_stormy/weather)
 
-## 2.3 Swipe down to refresh screen using SwipeRefreshLayout
+## 2.3 Adding automatic location determination - Google Play Services Location API
+
+Google Play Services provides provides Location API which you can use to add location awareness to android apps. Google Training website has a step-by-step guide at this [link](https://developer.android.com/training/location/index.html)
+
+Follow the steps in above training guide and one of the first step is to get Google Play Services API Key. Below are some of my notes and steps I executed to obtain that key:
+
+## 3.1 Gets Google Maps API Key
+
+Project Id - <automatically named by google maps api when I created a new project)
+API Key name: <You provide this on Google wizard>
+Package name: Get this from your Android app's Manifest xml file
+
+To get Certificate fingerprint(MD5) code follow these steps
+
+1. Go to - C:\Program Files\Java\jdk1.6.0_26\bin
+2. Inside the bin folder run the jarsigner.exe file
+3. Open cmd prompt and execute the following two commands:
+```dos
+C:\Program Files\Java\jdk1.6.0_26\bin
+keytool -list -keystore "C:/Users/your user name/.android/debug.keystore"
+```
+It will ask for Keystore password now. The default is "android" type and enter
+
+
+My steps - Open Windows prompt
+```dos
+cd C:\Java\jdk1.8.0_91\bin
+
+C:\Java\jdk1.8.0_91\bin>keytool -list -keystore "C:/Users/Mun/.android/debug.keystore"
+Enter keystore password: android
+
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+androiddebugkey, Jul 12, 2016, PrivateKeyEntry,
+Certificate fingerprint (SHA1): <removed>
+```
+
+After entering the above SHA-1 fingerprint in google wizard, got the following API key
+<removed>
+
+You can always see the Credentials you have created by visiting the following URL: https://console.developers.google.com/apis/credentials?project=evident-axle-138523&authuser=1
+
+
+## 2.4 Swipe down to refresh screen using SwipeRefreshLayout
 ![SwipeRefresh1](https://raw.githubusercontent.com/maanmehta/screenshots/master/stormy/SwipeRefresh1.png)
 
 Used `SwipeRefreshLayout` to implement the functionality where the user can swipe or drag down the screen to refresh its contents. When the user drags or swipes down the screen, screen shows a circular spinning progress icon and `onRefresh` event is triggered and the app developer can handle that event and implement the desired functionality. In this app we are calling our `getForecast()` when we handle that event.
