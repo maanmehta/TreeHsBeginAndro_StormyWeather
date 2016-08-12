@@ -46,16 +46,21 @@ public class Day implements Parcelable {
         mTemperatureMin = temperatureMin;
     }
 
-    public double getHumidity() {
-        return mHumidity;
+    /**
+     public double getHumidity() {
+     return mHumidity;
+     }
+     */
+    public int getHumidity(){
+        return (int) Math.round(mHumidity*100);// json is returning value between 0 and 1, we need to return percentage, so multiplying by 100
     }
 
     public void setHumidity(double humidity) {
         mHumidity = humidity;
     }
 
-    public double getPrecipChance() {
-        return mPrecipChance;
+    public int getPrecipChance() {
+        return (int) Math.round(mPrecipChance*100);
     }
 
     public void setPrecipChance(double precipChance) {

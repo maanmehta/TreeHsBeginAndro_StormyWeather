@@ -372,6 +372,7 @@ public class MainActivity extends AppCompatActivity
                 + current.getCelcius() + " C "
                 + "and condition is: "
                 + current.getSummary());
+        Log.d(TAG,"******** JSON object for current weather is: " + currently.toString() + "\n*****************\n");
 
 
         return current;
@@ -380,10 +381,11 @@ public class MainActivity extends AppCompatActivity
     private Hour[]  getHourlyWeatherFromJsonResponse(String jsonResponse) throws JSONException {
         JSONObject foreCastJsonObj = new JSONObject(jsonResponse);
         String timezone = foreCastJsonObj.getString("timezone");
-        //Log.i(TAG, "******* TIMEZONE from Json Response is: ***** " + timezone);
 
         JSONObject hourly = foreCastJsonObj.getJSONObject("hourly");
         JSONArray dataArray = hourly.getJSONArray("data");
+
+        //Log.d(TAG,"****************** JSON object for hourly forecast is: " + hourly.toString() +"\n*****************\n");
 
         Hour[] mHourlyForecast = new Hour[dataArray.length()];
 
@@ -407,9 +409,11 @@ public class MainActivity extends AppCompatActivity
     private Day[] getDailyForeCastFromJsonResponse(String jsonResponse) throws JSONException {
         JSONObject foreCastJsonObj = new JSONObject(jsonResponse);
         String timezone = foreCastJsonObj.getString("timezone");
-        //Log.i(TAG, "******* TIMEZONE from Json Response is: ***** " + timezone);
 
         JSONObject daily = foreCastJsonObj.getJSONObject("daily");
+
+        //Log.d(TAG,"****************** JSON object for daily forecast is: " + daily.toString() +"\n*****************\n");
+
         JSONArray dataArray = daily.getJSONArray("data");
 
         Day[] mDailyForecast = new Day[dataArray.length()];
@@ -467,8 +471,9 @@ public class MainActivity extends AppCompatActivity
         setCelcius(true);
         mTimeField.setText("At " + mForecast.getCurrent().getFormattedTime() + " forecast was");
         mTemperatureField.setText(Integer.toString(mForecast.getCurrent().getCelcius()));
-        mHumidityField.setText(Double.toString(mForecast.getCurrent().getHumidity()));
-        mPrecipField.setText(Integer.toString(mForecast.getCurrent().getPrecipChance()) + "%");
+        //mHumidityField.setText(Double.toString(mForecast.getCurrent().getHumidity())+ "%");
+        mHumidityField.setText(mForecast.getCurrent().getHumidity()+ "%");
+        mPrecipField.setText(mForecast.getCurrent().getPrecipChance() + "%");
         mSummaryField.setText(mForecast.getCurrent().getSummary());
         mCityValueTextView.setText(mCity);
         Drawable drawable = getResources().getDrawable(mForecast.getCurrent().getIconId());
@@ -477,7 +482,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "*********** Location services connected.");
+        Log.d(TAG, "*********** GoogleApiClient connected - starting onConnected of ConnectionCallbacks");
 
         // TODO: Fix permissions code
         /**
@@ -542,7 +547,8 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        mGoogleApiClient.connect();
+        if (!mGoogleApiClient.isConnected())
+            mGoogleApiClient.connect();
     }
 
     @Override
@@ -571,14 +577,17 @@ public class MainActivity extends AppCompatActivity
     public void onStart() {
         super.onStart();
 
-        mGoogleApiClient.connect();
+        if (!mGoogleApiClient.isConnected())
+            mGoogleApiClient.connect();
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        mGoogleApiClient.disconnect();
+
+        if (mGoogleApiClient.isConnected())
+            mGoogleApiClient.disconnect();
     }
 
     @SuppressLint("ParcelCreator")
@@ -619,6 +628,9 @@ public class MainActivity extends AppCompatActivity
                 else if (addressObj.getSubAdminArea()!=null) mCity = addressObj.getSubAdminArea();
                 else if (addressObj.getSubThoroughfare()!=null) mCity = addressObj.getSubThoroughfare();
                 else mCity = "Current Location";
+
+                //update the view with the new current City
+                mCityValueTextView.setText(mCity);
 
                 Log.d(TAG, "********** SUCCESS - Address received from FetchAddressIntentService.\nCity is: "+mCity + " and Province is: " + province + "\nAddress toString is: " + addressObj.toString());
             } else {

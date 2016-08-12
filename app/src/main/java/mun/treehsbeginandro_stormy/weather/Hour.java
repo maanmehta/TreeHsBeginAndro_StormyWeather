@@ -58,8 +58,13 @@ public class Hour implements Parcelable{
         mTemperature = temperature;
     }
 
-    public double getHumidity() {
-        return mHumidity;
+    /**
+     public double getHumidity() {
+     return mHumidity;
+     }
+     */
+    public int getHumidity(){
+        return (int) Math.round(mHumidity*100);// json is returning value between 0 and 1, we need to return percentage, so multiplying by 100
     }
 
     public void setHumidity(double humidity) {
@@ -67,7 +72,7 @@ public class Hour implements Parcelable{
     }
 
     public double getPrecipChance() {
-        return mPrecipChance;
+        return (int) Math.round(mPrecipChance*100);// json is returning value between 0 and 1, we need to return percentage, so multiplying by 100
     }
 
     public void setPrecipChance(double precipChance) {

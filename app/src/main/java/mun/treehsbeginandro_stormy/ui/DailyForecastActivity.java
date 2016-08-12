@@ -86,13 +86,13 @@ public class DailyForecastActivity extends ListActivity {
         TextView mDetailsTextView = (TextView) v.findViewById(R.id.detailsTextView);
         RelativeLayout bottomRL = (RelativeLayout) v.findViewById(R.id.bottomRL);
 
-        String pop = mDays[position].getPrecipChance()*100 + "";
+        String pop = mDays[position].getPrecipChance() + "%";
         String summary = mDays[position].getSummary();
-        String humidity = mDays[position].getHumidity()+"";
-        String windSpeed = mDays[position].getWindSpeed()+"";
+        String humidity = mDays[position].getHumidity() + "%";
+        String windSpeed = mDays[position].getWindSpeed() + "";
         String day = mDays[position].getDayOfTheWeekAbbrev();
 
-        String message = String.format("%s\nHumidity: %s percent\nPOP: %s percent\nWind: %s km/h",summary,humidity,pop,windSpeed);
+        String message = String.format("%s\nHumidity: %s \nPOP: %s \nWind: %s km/h",summary,humidity,pop,windSpeed);
         //Toast.makeText(this,message,Toast.LENGTH_LONG).show();
 
 

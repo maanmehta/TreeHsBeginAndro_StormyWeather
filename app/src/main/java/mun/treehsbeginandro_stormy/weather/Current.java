@@ -79,8 +79,13 @@ public class Current {
         mTemperature = temperature;
     }
 
+    /**
     public double getHumidity() {
         return mHumidity;
+    }
+    */
+    public int getHumidity(){
+        return (int) Math.round(mHumidity*100);// json is returning value between 0 and 1, we need to return percentage, so multiplying by 100
     }
 
     public void setHumidity(double humidity) {
@@ -88,8 +93,7 @@ public class Current {
     }
 
     public int  getPrecipChance() {
-        int intValue = (int) Math.round(mPrecipChance);
-        return intValue*100; // json is returning value between 0 and 1, we need to return percentage, so multiplying by 100 before returnign to the view
+        return (int) Math.round(mPrecipChance*100); // json is returning value between 0 and 1, we need to return percentage, so multiplying by 100 before returnign to the view
     }
 
     public void setPrecipChance(double precipChance) {
