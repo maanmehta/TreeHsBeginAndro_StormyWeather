@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TreeHsBeginAndro_Stormy</string>
+    <string name="app_name">Stormy Weather</string>
     <string name="error_dialog_title">Ooops! Sorry!</string>
     <string name="error_dialog_message">There was an error.Please try again</string>
     <string name="error_dialog_positiveButton_text">OK</string>

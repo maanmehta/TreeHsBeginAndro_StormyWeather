@@ -3,6 +3,10 @@ package mun.treehsbeginandro_stormy.weather;
 import mun.treehsbeginandro_stormy.R;
 
 public class Forecast {
+    private Current mCurrent;
+    private Day[] mDailyForecast;
+    private Hour[] mHourlyForecast;
+
     public Current getCurrent() {
         return mCurrent;
     }
@@ -26,10 +30,6 @@ public class Forecast {
     public void setHourlyForecast(Hour[] hourlyForecast) {
         mHourlyForecast = hourlyForecast;
     }
-
-    private Current mCurrent;
-    private Day[] mDailyForecast;
-    private Hour[] mHourlyForecast;
 
     public static int getIconId(String iconString){
         int iconId = R.drawable.clear_day;

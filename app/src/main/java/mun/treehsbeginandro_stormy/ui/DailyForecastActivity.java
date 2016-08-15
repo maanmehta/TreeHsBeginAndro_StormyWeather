@@ -31,10 +31,8 @@ public class DailyForecastActivity extends ListActivity {
     private boolean clickFlag;
     private Vibrator mVibrator;
 
-
     //private SwipeRefreshLayout mSwipeRefreshLayout;
     private static final String TAG=DailyForecastActivity.class.getSimpleName();
-
 
 
     @Override
@@ -75,7 +73,6 @@ public class DailyForecastActivity extends ListActivity {
     private void showToast() {
         Toast.makeText(this,"Swipe to Refresh event",Toast.LENGTH_SHORT).show();
         //mSwipeRefreshLayout.setRefreshing(false);
-
     }
 
     @Override
@@ -94,7 +91,6 @@ public class DailyForecastActivity extends ListActivity {
 
         String message = String.format("%s\nHumidity: %s \nPOP: %s \nWind: %s km/h",summary,humidity,pop,windSpeed);
         //Toast.makeText(this,message,Toast.LENGTH_LONG).show();
-
 
         if (previousPosition!=position)
             clickFlag = false;
@@ -116,8 +112,6 @@ public class DailyForecastActivity extends ListActivity {
         }
         previousView = v;
         previousPosition = position;
-
-
     }
 
     private void processPreviousRow(View previousView) {

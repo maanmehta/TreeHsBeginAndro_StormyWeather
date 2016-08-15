@@ -36,11 +36,7 @@ public class Current {
         return mIcon;
     }
 
-    public void setIcon(String icon) {
-        mIcon = icon;
-
-
-    }
+    public void setIcon(String icon) { mIcon = icon; }
 
     public int getIconId(){
         return Forecast.getIconId(mIcon);

@@ -32,7 +32,7 @@ public class HourAdapter  extends RecyclerView.Adapter<HourAdapter.HourViewHolde
 
     @Override
     public void onBindViewHolder(HourViewHolder holder, int position) {
-        //get the hour object from mHours array based ont he current row position
+        //get the hour object from mHours array based on the current row position
         Hour theHour = mHours[position];
 
         //call the bindHour method of our viewHolder which takes the hour object and maps
@@ -68,7 +68,5 @@ public class HourAdapter  extends RecyclerView.Adapter<HourAdapter.HourViewHolde
             mHourSummaryTextView.setText(hour.getSummary());
             mHourTempTextView.setText(hour.getTemperature()+"");
         }
-
-
     }
 }
