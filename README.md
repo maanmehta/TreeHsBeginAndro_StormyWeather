@@ -1,7 +1,5 @@
 # Weather Android App
 ## Detailed Design and Functionality
-- Test1 - created a new Work branch from Master and added this line to Readme.md and now VCS Commit and PUSH (to github server)
-- Test2 - verified changes from Work branch merged and PUSHED (on github server) to master branch and then again commit and PUSH this to Work; them merge the changes in Work branch to master and then PUSH master (to github server) and verify on github websites
 
 ### About this app
 
