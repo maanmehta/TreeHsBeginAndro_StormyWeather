@@ -1,6 +1,8 @@
 # Weather Android App
 ## Detailed Design and Functionality
 
+- Test 4 - adding this line and then push to master and then checking out old tag v1 to make sure that this new line is not in the IDE anymore as old tag (v1) should not have this line.
+
 ### About this app
 
 This android app provides following features using established Google design patterns and Google APIs:
