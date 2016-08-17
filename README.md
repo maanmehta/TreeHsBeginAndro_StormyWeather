@@ -1,5 +1,6 @@
 # Weather Android App
 ## Detailed Design and Functionality
+- Test1 - created a new Work branch from Master and added this line to Readme.md and now VCS Commit and PUSH (to github server)
 
 ### About this app
 
