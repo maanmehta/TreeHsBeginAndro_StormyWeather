@@ -1,7 +1,7 @@
 # Weather Android App
 ## Detailed Design and Functionality
 
-### About this app
+### About this app    2
 
 This android app provides following features using established Google design patterns and Google APIs:
 
