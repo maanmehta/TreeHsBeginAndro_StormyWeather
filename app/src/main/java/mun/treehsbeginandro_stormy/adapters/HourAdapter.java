@@ -69,4 +69,6 @@ public class HourAdapter  extends RecyclerView.Adapter<HourAdapter.HourViewHolde
             mHourTempTextView.setText(hour.getTemperature()+"");
         }
     }
+
+
 }

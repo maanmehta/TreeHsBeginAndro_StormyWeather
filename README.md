@@ -1,6 +1,12 @@
 # Weather Android App
 ## Detailed Design and Functionality
 
+
+### About this document
+Purpose of this document is to provide:
+ - functionality provided by this app,
+ - detailed technical design for important features
+
 ### About this app
 
 This android app provides following features using established Google design patterns and Google APIs:
@@ -11,11 +17,6 @@ This android app provides following features using established Google design pat
 4. Displays 7-day forecast
 5. Displays hourly forecast
 6. Displays current location in a Google Map view and the nearest address determined using reverse GeoCoding
-
-### About this document
-Purpose of this document is to provide:
- - functionality provided by this app,
- - detailed technical design for important features
 
 # 1 Main Screens / Activities
 
